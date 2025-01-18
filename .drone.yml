@@ -8,5 +8,5 @@ steps:
   commands:
   - pnpm install 
   - pnpm run build
-  - rm -rv /bonfire
-  - cp -rv ./build /bonfire/
+  - rm -rv /data/bonfire
+  - cp -rv ./build /data/bonfire/
