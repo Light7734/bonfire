@@ -6,7 +6,7 @@ steps:
 - name: build_deploy
   image: ianwalter/pnpm:v1.4.0
   commands:
-  - npm install 
-  - npm run build
+  - pnpm install 
+  - pnpm run build
   - rm -rv /bonfire
   - cp -rv ./build /bonfire/
