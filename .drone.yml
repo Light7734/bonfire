@@ -4,7 +4,7 @@ name: default
 
 volumes:
   - name: bonfire
-    path: /data/bonfire/
+    path: /home/light/bonfire/
 
 steps:
 - name: build_deploy
