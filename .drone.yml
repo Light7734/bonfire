@@ -4,6 +4,7 @@ name: default
 
 steps:
 - name: build_deploy
+  privileged: true
   image: ianwalter/pnpm:v1.4.0
   volumes:
     - name: bonfire
