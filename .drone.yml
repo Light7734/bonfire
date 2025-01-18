@@ -4,7 +4,7 @@ name: default
 
 steps:
 - name: build_deploy
-  image: node:12 
+  image: ianwalter/pnpm:v1.4.0
   commands:
   - npm install 
   - npm run build
