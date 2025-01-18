@@ -5,6 +5,9 @@ name: default
 steps:
 - name: build_deploy
   image: ianwalter/pnpm:v1.4.0
+  volumes:
+    - name: bonfire
+      path: /data/bonfire/:/data/bonfire
   commands:
   - pnpm install 
   - pnpm run build
