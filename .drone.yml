@@ -11,5 +11,8 @@ steps:
   commands:
   - pnpm install 
   - pnpm run build
+  - ls .
+  - ls /
+  - ls /data/
   - rm -rv /data/bonfire
   - cp -rv ./build /data/bonfire/
