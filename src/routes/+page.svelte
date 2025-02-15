@@ -21,10 +21,10 @@ PS: I may not respond till Saturday (unless you call my phone) since I'm **locke
 <br />
 <h1>Open Source Projects</h1>
 <ol>
-	<li style="margin-left: 32px">Academy</li>
+	<li style="margin-left: 32px">Dazzle</li>
 	<!-- Brief
 	I love teaching! I've learned that it's the most effective way to solidify your knowledge and leave
-	little to no gaps. Academy is the collection of my articles teaching a subject in depth. It delves
+	little to no gaps. Dazzle is the collection of my articles teaching a subject in depth. It delves
 	into topics such as rendering, mathematics, guidelines and more. It's just my way of giving back to
 	the community!
     -->
@@ -33,7 +33,7 @@ PS: I may not respond till Saturday (unless you call my phone) since I'm **locke
     -->
 
 	<!-- Technical Details 
-    Technology behind Academy:
+    Technology behind Dazzle:
     -->
 
 	<!-- Source Code 
@@ -42,7 +42,6 @@ PS: I may not respond till Saturday (unless you call my phone) since I'm **locke
         CodeBerg mirror
         GitLab mirror
         GitHub mirror
-
         <Commit_Tiles/>
     -->
 
