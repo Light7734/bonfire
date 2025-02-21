@@ -5,7 +5,7 @@ name: default
 steps:
 - name: build_deploy
   privileged: true
-  image: stagex/npm:latest
+  image: node:latest
   volumes:
     - name: bonfire
       path: /bonfire:/bonfire
