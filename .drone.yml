@@ -14,8 +14,5 @@ steps:
   - pnpm run build
   - ls .
   - ls /
-  - ls /home/
-  - ls /home/light/
-  - ls /data/
-  - rm -rv /data/bonfire
-  - cp -rv ./build /data/bonfire/
+  - ls /bonfire/
+  - cat /bonfire/index.html
