@@ -2,13 +2,13 @@ kind: pipeline
 type: docker
 name: default
 
-
 steps:
 - name: build_deploy
-  image: ianwalter/pnpm:v1.4.0
   privileged: true
+  image: ianwalter/pnpm:v1.4.0
   volumes:
-    - /home/light/bonfire:/bonfire
+    - name: bonfire
+      path: /home/light/bonfire:/bonfire/
   commands:
   - pnpm install 
   - pnpm run build
