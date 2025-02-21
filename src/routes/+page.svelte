@@ -1,4 +1,4 @@
-<h1>Portfolio Under Construction</h1>
+<h1>Portfolio Under Construction...</h1>
 <!-- Brief Bio
 -->
 
