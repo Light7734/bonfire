@@ -8,7 +8,7 @@ steps:
   image: ianwalter/pnpm:v1.4.0
   privileged: true
   volumes:
-  - /home/light/bonfire:/bonfire
+    - /home/light/bonfire:/bonfire
   commands:
   - pnpm install 
   - pnpm run build
