@@ -8,7 +8,7 @@ steps:
   image: ianwalter/pnpm:v1.4.0
   volumes:
     - name: bonfire
-      path: /home/light/bonfire:/bonfire/
+      path: /bonfire:/bonfire
   commands:
   - pnpm install 
   - pnpm run build
