@@ -6,9 +6,6 @@ steps:
   - name: build_deploy
     privileged: true
     image: node:latest
-    volumes:
-      - name: bonfire
-        path: /bonfire:/bonfire
     commands:
       - npm install
       - npm run build
