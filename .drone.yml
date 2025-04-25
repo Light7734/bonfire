@@ -3,17 +3,17 @@ type: docker
 name: default
 
 steps:
-- name: build_deploy
-  privileged: true
-  image: node:latest
-  volumes:
-    - name: bonfire
-      path: /bonfire:/bonfire
-  commands:
-  - npm install
-  - npm run build
-  - cp -r ./build/* /bonfire/
-  - ls .
-  - ls /
-  - ls /bonfire/
-  - cat /bonfire/index.html
+  - name: build_deploy
+    privileged: true
+    image: node:latest
+    volumes:
+      - name: bonfire
+        path: /bonfire:/bonfire
+    commands:
+      - npm install
+      - npm run build
+      - cp -r ./build/* /bonfire/
+      - ls .
+      - ls /
+      - ls /bonfire/
+      - cat /bonfire/index.html
