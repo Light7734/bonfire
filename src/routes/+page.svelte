@@ -3,9 +3,9 @@
 	<br />
 	This is some text using the primary text color... <!------>
 	<br />
-	And some <span class="text-muted_text"> muted </span> text <!------>
-	<br />
 	And some <span class="text-accent_text"> accented </span> text
+	<br />
+	And some <span class="text-muted_text"> muted </span> text <!------>
 </div>
 
 <!-- Brief Bio
