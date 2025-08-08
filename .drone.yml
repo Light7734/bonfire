@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker 
-name: deploy
+name: deploy_dev
 
 trigger:
   branch:
@@ -17,3 +17,24 @@ steps:
     image: byteflair/scp
     commands: 
       - scp -r ./build light@5.75.206.84:/home/light/bonfire_dev
+
+---
+kind: pipeline
+type: docker 
+name: deploy_prod
+
+trigger:
+  event:
+  - tag
+
+steps:
+  - name: build
+    image: node:latest
+    commands:
+      - npm install
+      - npm run build
+
+  - name: deploy
+    image: byteflair/scp
+    commands: 
+      - scp -r ./build light@5.75.206.84:/home/light/bonfire
