@@ -1,7 +1,7 @@
 <div>
 	<span class="text-2xl">Portfolio under construction...</span>
 	<br />
-	This is some text using the primary text color... <!------>
+	This is some text using the primary text color :3 <!------>
 	<br />
 	And some <span class="text-accent_text"> accented </span> text
 	<br />
