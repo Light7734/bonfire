@@ -13,6 +13,9 @@ steps:
       - npm run build
 
   - name: deploy
+    privileged: true
     image: byteflair/scp
+    volumes:
+      - /root/.ssh:/root/.ssh
     commands: 
       - scp -r ./build light@5.75.206.84:/home/light/bonfire_dev
