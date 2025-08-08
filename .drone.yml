@@ -1,16 +1,19 @@
 kind: pipeline
-type: docker
-name: default
+type: docker 
+name: deploy
+trigger:
+  branch:
+  - main
 
 steps:
-  - name: build_deploy
+  - name: build
     privileged: true
     image: node:latest
     commands:
       - npm install
       - npm run build
-      - cp -r ./build/* /bonfire/
-      - ls .
-      - ls /
-      - ls /bonfire/
-      - cat /bonfire/index.html
+
+  - name: build
+    image: byteflair/scp
+    commands: 
+      - scp -r ./build light@5.75.206.84:/home/light/bonfire_dev
