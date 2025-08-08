@@ -13,7 +13,7 @@ steps:
       - npm install
       - npm run build
 
-  - name: build
+  - name: deploy
     image: byteflair/scp
     commands: 
       - scp -r ./build light@5.75.206.84:/home/light/bonfire_dev
