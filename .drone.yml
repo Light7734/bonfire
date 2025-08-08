@@ -7,7 +7,6 @@ trigger:
 
 steps:
   - name: build
-    privileged: true
     image: node:latest
     commands:
       - npm install
