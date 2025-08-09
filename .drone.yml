@@ -7,19 +7,18 @@ trigger:
   - main
 
 steps:
-  - name: build
-    image: node:latest
-    commands:
-      - npm install
-      - npm run build
+- name: build
+  image: node:latest
+  commands:
+    - npm install
+    - npm run build
 
-  - name: deploy
-    image: byteflair/scp
-    commands:
-      - |
-        ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire_dev/*'
-        mv ./build ./bonfire_dev
-        scp -r './bonfire_dev/' 'light@5.75.206.84:/home/light/'
+- name: deploy
+  image: byteflair/scp
+  commands:
+    - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire_dev/*'
+    - mv ./build ./bonfire_dev
+    - scp -r './bonfire_dev/' 'light@5.75.206.84:/home/light/'
 
 ---
 kind: pipeline
@@ -31,15 +30,15 @@ trigger:
   - tag
 
 steps:
-  - name: build
-    image: node:latest
-    commands:
-      - npm install
-      - npm run build
+- name: build
+  image: node:latest
+  commands:
+    - npm install
+    - npm run build
 
-  - name: deploy
-    image: byteflair/scp
-    commands: 
-        ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire/*'
-        mv ./build ./bonfire
-        scp -r './bonfire/' 'light@5.75.206.84:/home/light/'
+- name: deploy
+  image: byteflair/scp
+  commands: 
+    - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire/*'
+    - mv ./build ./bonfire
+    - scp -r './bonfire/' 'light@5.75.206.84:/home/light/'
