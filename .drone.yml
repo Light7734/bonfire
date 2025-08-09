@@ -15,9 +15,11 @@ steps:
 
   - name: deploy
     image: byteflair/scp
-    commands: 
-      - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire_dev/*'
-      - scp -r './build/*' 'light@5.75.206.84:/home/light/bonfire_dev'
+    commands:
+      - |
+        ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire_dev/*'
+        mv ./build ./bonfire_dev
+        scp -r './bonfire_dev/' 'light@5.75.206.84:/home/light/'
 
 ---
 kind: pipeline
@@ -38,5 +40,6 @@ steps:
   - name: deploy
     image: byteflair/scp
     commands: 
-      - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire/*'
-      - scp -r './build/*' 'light@5.75.206.84:/home/light/bonfire'
+        ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire/*'
+        mv ./build ./bonfire
+        scp -r './bonfire/' 'light@5.75.206.84:/home/light/'
