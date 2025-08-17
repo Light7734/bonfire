@@ -16,9 +16,18 @@ steps:
 - name: deploy
   image: byteflair/scp
   commands:
-    - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire_dev/*'
-    - mv ./build ./bonfire_dev
-    - scp -r './bonfire_dev/' 'light@5.75.206.84:/home/light/'
+    - mv ./build ./bonfire_dev_staging
+
+    # Stage
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev_staging'
+    - scp -r './bonfire_dev_staging' 'light@5.75.206.84:/home/light/'
+
+    # Move to endpoint
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev/*'
+    - ssh -tt 'light@5.75.206.84' 'sudo mv /home/light/bonfire_dev_staging/* /home/light/bonfire_dev/'
+
+    # Remove staging
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev_staging'
 
 ---
 kind: pipeline
@@ -39,6 +48,15 @@ steps:
 - name: deploy
   image: byteflair/scp
   commands: 
-    - ssh 'light@5.75.206.84' 'rm -rf /home/light/bonfire/*'
-    - mv ./build ./bonfire
-    - scp -r './bonfire/' 'light@5.75.206.84:/home/light/'
+    - mv ./build ./bonfire_staging
+
+    # Stage
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_staging'
+    - scp -r './bonfire_staging' 'light@5.75.206.84:/home/light/'
+
+    # Move to endpoint
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire/*'
+    - ssh -tt 'light@5.75.206.84' 'sudo mv /home/light/bonfire_staging/* /home/light/bonfire/'
+
+    # Remove staging
+    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_staging'
