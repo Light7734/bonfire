@@ -1,11 +1,66 @@
 <div>
 	<span class="text-2xl">Portfolio under construction...</span>
 	<br />
-	This is some text using the primary text color :3 <!------>
+
+	If you felt disappointed, let it be a practice to control your expectations... But I promise to
+	tidy this place up soon!!! :D
 	<br />
-	And some <span class="text-accent_text"> accented </span> text
+
+	Anyways, here are some links to all my <span class="text-accent_text"> social handles </span>:
 	<br />
-	And some <span class="text-muted_text"> muted </span> text <!------>
+	<br />
+
+	Mail:
+	<a href="mailto:light7734@tuta.io" class="text-blue"> light7734@tuta.io </a>
+	<br />
+
+	Youtube:
+	<a href="https://www.youtube.com/@light.7734" class="text-blue"> @light.7734 </a>
+	<br />
+
+	Twitter:
+	<a href="https://x.com/light7734" class="text-blue"> @light7734 </a>
+	<br />
+
+	Bluesky:
+	<a href="https://bsky.app/profile/light7734.bsky.social" class="text-blue"> @light7734 </a>
+	<br />
+
+	Reddit:
+	<a href="https://www.reddit.com/user/Light7734/" class="text-blue"> u/light7734 </a>
+	<br />
+
+	Itcho.io:
+	<a href="https://light7734.itch.io/" class="text-blue"> light7734 </a>
+	<br />
+
+	Discord: @light7734
+	<br />
+
+	Discord Community: @light7734
+	<br />
+
+	Telegram Dailies: soon
+	<br />
+
+	Instagram: soon
+	<br />
+
+	Forgejo (git repos):
+	<a href="https://git.light7734.com/light7734" class="text-blue"> git.light7734.com </a>
+	<br />
+
+	Codeberg (mirrors):
+	<a href="https://codeberg.org/light7734" class="text-blue"> @light7734 </a>
+	<br />
+
+	Github (mirrors):
+	<a href="https://codeberg.org/light7734" class="text-blue"> @light7734 </a>
+	<br />
+
+	Gitlab (mirrors):
+	<a href="https://gitlab.com/Light7734" class="text-blue"> @light7734 </a>
+	<br />
 </div>
 
 <!-- Brief Bio
