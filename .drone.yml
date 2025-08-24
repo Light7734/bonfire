@@ -1,7 +1,8 @@
 kind: pipeline
 type: docker 
 name: deploy_dev
-
+node:
+  environment: ryali
 trigger:
   branch:
   - main
@@ -12,29 +13,17 @@ steps:
   commands:
     - npm install
     - npm run build
-
-- name: deploy
-  image: byteflair/scp
-  commands:
-    - mv ./build ./bonfire_dev_staging
-
-    # Stage
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev_staging'
-    - scp -r './bonfire_dev_staging' 'light@5.75.206.84:/home/light/'
-
-    # Move to endpoint
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev/*'
-    - ssh -tt 'light@5.75.206.84' 'sudo mv /home/light/bonfire_dev_staging/* /home/light/bonfire_dev/'
-
-    # Remove staging
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_dev_staging'
+    - rm -rf /bonfire_dev/*
+    - mv ./build/* /bonfire_dev/
 
 ---
 kind: pipeline
 type: docker 
 name: deploy_prod
+node:
+  environment: ryali
 
-trigger:
+
   event:
   - tag
 
@@ -44,19 +33,5 @@ steps:
   commands:
     - npm install
     - npm run build
-
-- name: deploy
-  image: byteflair/scp
-  commands: 
-    - mv ./build ./bonfire_staging
-
-    # Stage
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_staging'
-    - scp -r './bonfire_staging' 'light@5.75.206.84:/home/light/'
-
-    # Move to endpoint
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire/*'
-    - ssh -tt 'light@5.75.206.84' 'sudo mv /home/light/bonfire_staging/* /home/light/bonfire/'
-
-    # Remove staging
-    - ssh -tt 'light@5.75.206.84' 'sudo rm -rf /home/light/bonfire_staging'
+    - rm -rf /bonfire/*
+    - mv ./build/* /bonfire/
