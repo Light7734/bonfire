@@ -3,28 +3,51 @@ import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 
 export default {
+	darkMode: 'class', // important for theme switching
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {},
-		colors: {
-			foundation: '#282828',
-			primary: '#282828',
-			secondary: '#000000',
-			accent: '#ff0000',
+		extend: {
+			colors: {
+				// Gruvbox Light
+				gruvboxLight: {
+					bg: '#fbf1c7',
+					fg: '#3c3836',
+					primary: '#458588',
+					secondary: '#b16286',
+					accent: '#d79921',
+					neutral: '#a89984',
+					muted: '#7c6f64',
+					red: '#cc241d',
+					green: '#98971a',
+					blue: '#458588',
+					yellow: '#d79921',
+					orange: '#d65d0e',
+					purple: '#b16286',
+					aqua: '#689d6a'
+				},
 
-			neutral: '#000000',
-
-			primary_text: '#fbf1c7',
-			muted_text: '#a89984',
-			accent_text: '#fb4934',
-
-			red: '#000000',
-			green: '#000000',
-			blue: '#83a598',
-			yellow: '#000000'
+				// Gruvbox Dark
+				gruvboxDark: {
+					bg: '#282828',
+					fg: '#ebdbb2',
+					primary: '#83a598',
+					secondary: '#d3869b',
+					accent: '#fabd2f',
+					neutral: '#928374',
+					muted: '#7c6f64',
+					red: '#fb4934',
+					green: '#b8bb26',
+					blue: '#83a598',
+					yellow: '#fabd2f',
+					orange: '#fe8019',
+					purple: '#d3869b',
+					aqua: '#8ec07c'
+				}
+			}
 		}
 	},
 
 	plugins: [typography, containerQueries]
 } satisfies Config;
+
