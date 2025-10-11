@@ -1,79 +1,97 @@
-<div>
-	<span class="text-2xl">Portfolio under construction...</span>
-	<br />
+<script>
+	import Project from './project.svelte';
+	import ThemeToggle from './theme.svelte';
+	import TiltCard from './tiltcard.svelte';
 
-	If you felt disappointed, let it be a practice to control your expectations... But I promise to
-	tidy this place up soon!!! :D
-	<br />
+	// Assuming icons for Github, Gitlab, Codeberg (Code), Forgejo (GitBranch)
+	import { Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
 
-	Anyways, here are some links to all my <span class="text-accent_text"> social handles </span>:
-	<br />
-	<br />
+	const repository = {
+		label: 'Forge',
+		url: 'https://git.light7734.com/light7734/light',
+		iconComponent: GitBranch
+	};
 
-	Mail:
-	<a href="mailto:light7734@tuta.io" class="text-blue"> light7734@tuta.io </a>
-	<br />
+	const mirrors = [
+		{ label: 'Github', url: 'https://github.com/light7734/light', iconComponent: Github },
+		{ label: 'Gitlab', url: 'https://gitlab.com/light7734/light', iconComponent: Gitlab },
+		{ label: 'Codeberg', url: 'https://codeberg.org/light7734/light', iconComponent: Code }
+	];
 
-	Youtube:
-	<a href="https://www.youtube.com/@light.7734" class="text-blue"> @light.7734 </a>
-	<br />
+	const gallery = [
+		'https://placekittens.com/720/480',
+		'https://placekittens.com/720/481',
+		'https://placekittens.com/720/482',
+		'https://placekittens.com/720/483',
+		'https://placekittens.com/720/484',
+		'https://placekittens.com/720/484'
+	];
 
-	Twitter:
-	<a href="https://x.com/light7734" class="text-blue"> @light7734 </a>
-	<br />
+	const features = ['MSAA', 'SSAO', 'PBR Lighting'];
 
-	Bluesky:
-	<a href="https://bsky.app/profile/light7734.bsky.social" class="text-blue"> @light7734 </a>
-	<br />
+	const languages = [{ name: 'C++23', icon: 'cplusplus.svg' }, { name: 'CMake' }];
 
-	Reddit:
-	<a href="https://www.reddit.com/user/Light7734/" class="text-blue"> u/light7734 </a>
-	<br />
+	const graphicsApis = ['Vulkan', 'Metal', 'DirectX12'];
 
-	Itcho.io:
-	<a href="https://light7734.itch.io/" class="text-blue"> light7734 </a>
-	<br />
+	const cicd = ['Drone', 'Docker'];
+</script>
 
-	Discord: @light7734
-	<br />
+<div
+	class="flex min-h-screen bg-gruvboxLight-bg text-gruvboxLight-fg transition-colors duration-300 dark:bg-gruvboxDark-bg dark:text-gruvboxDark-fg"
+>
+	<div class="flex-1 bg-[#1d2021]"></div>
+	<main class="bg-card relative flex-[10] p-8 transition-all duration-300 ease-out">
+		<div class="absolute right-0 top-0">
+			<ThemeToggle />
+		</div>
 
-	Discord Community: @light7734
-	<br />
+		<h1>Bio</h1>
 
-	Telegram Dailies: soon
-	<br />
+		<br />
 
-	Instagram: soon
-	<br />
+		<Project
+			title="LIGHT"
+			description_preview="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
+			description="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
+			icon="/light.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+			{languages}
+			{graphicsApis}
+			{cicd}
+		/>
 
-	Forgejo (git repos):
-	<a href="https://git.light7734.com/light7734" class="text-blue"> git.light7734.com </a>
-	<br />
-
-	Codeberg (mirrors):
-	<a href="https://codeberg.org/light7734" class="text-blue"> @light7734 </a>
-	<br />
-
-	Github (mirrors):
-	<a href="https://codeberg.org/light7734" class="text-blue"> @light7734 </a>
-	<br />
-
-	Gitlab (mirrors):
-	<a href="https://gitlab.com/Light7734" class="text-blue"> @light7734 </a>
-	<br />
+		<br />
+		<Project
+			title="LIGHT"
+			description_preview="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
+			description="Detailed description here."
+			icon="/light.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+			{languages}
+			{graphicsApis}
+			{cicd}
+		/>
+	</main>
+	<div class="flex-1 bg-[#1d2021]"></div>
 </div>
-
 <!-- Brief Bio
 -->
 
 <!--OPEN SOURCE PROJECTS -->
-<!-- Brief Dazzle
+<!-- Description
 I love teaching! I've learned that it's the most effective way to solidify your knowledge and leave
 little to no gaps. Dazzle is the collection of my articles teaching a subject in depth. It delves
 into topics such as rendering, mathematics, guidelines and more. It's just my way of giving back to
 the community!
 -->
 <!-- Gallery 
+<...images...>
 -->
 <!-- Technical Details 
 Technology behind Dazzle:
@@ -106,9 +124,6 @@ Technology behind Light:
         OpenGL, Vulkan, Metal, DirectX12
     CICD: 
         Drone, Docker, 
-    
-Prominent vendor libs:
-    EnTT, Glfw3.4, Dear (truly a dear) ImGui, 
 
 Check out the source code on any of the official mirrors or on the main self-hosted repo.
     Self-hosted with <3 using Forgejo (a fork of Gittea)
