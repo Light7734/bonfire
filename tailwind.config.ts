@@ -10,7 +10,7 @@ export default {
 		extend: {
 			colors: {
 				// Gruvbox Light
-				gruvboxLight: {
+				light: {
 					bg: '#fbf1c7',
 					fg: '#3c3836',
 					primary: '#458588',
@@ -28,7 +28,7 @@ export default {
 				},
 
 				// Gruvbox Dark
-				gruvboxDark: {
+				dark: {
 					bg: '#282828',
 					fg: '#ebdbb2',
 					primary: '#83a598',
