@@ -5,13 +5,13 @@
 	export let height: string = '400px';
 
 	let cardElement: HTMLDivElement;
-	let rotateX = 0;
-	let rotateY = 0;
+	let rotateX = -10;
+	let rotateY = 5;
 	let isHovered = false;
 
 	// Derived shadow offsets
-	let shadowX = 0;
-	let shadowY = 0;
+	let shadowX = -rotateY * 0.7;
+	let shadowY = rotateX * 0.7;
 	let shadowBlur = 20;
 
 	function handleMouseMove(event: MouseEvent) {
@@ -39,16 +39,16 @@
 
 	function handleMouseLeave() {
 		isHovered = false;
-		rotateX = 0;
-		rotateY = 0;
-		shadowX = 0;
-		shadowY = 0;
+		rotateX = -10;
+		rotateY = 5;
+		shadowX = -rotateY * 0.7;
+		shadowY = rotateX * 0.7;
 	}
 </script>
 
 <div
 	bind:this={cardElement}
-	class="cursor-pointer"
+	class="cursor-pointer duration-100"
 	class:scale-[1.03]={isHovered}
 	style="
 		width: {width};
