@@ -1,13 +1,13 @@
 <script>
 	import Project from './project.svelte';
+	import Bio from './bio.svelte';
+	import LanguageStats from './languages.svelte';
 	import ThemeToggle from './theme.svelte';
 	import TiltCard from './tiltcard.svelte';
 
-	// Assuming icons for Github, Gitlab, Codeberg (Code), Forgejo (GitBranch)
 	import { Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
-
 	const repository = {
-		label: 'Forge',
+		label: 'Repository',
 		url: 'https://git.light7734.com/light7734/light',
 		iconComponent: GitBranch
 	};
@@ -34,26 +34,95 @@
 	const graphicsApis = ['Vulkan', 'Metal', 'DirectX12'];
 
 	const cicd = ['Drone', 'Docker'];
+	const lorem_ipsum =
+		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
 </script>
 
 <div
-	class="flex min-h-screen bg-gruvboxLight-bg text-gruvboxLight-fg transition-colors duration-300 dark:bg-gruvboxDark-bg dark:text-gruvboxDark-fg"
+	class="min-h-screen bg-light-bg text-light-fg transition-colors duration-300 dark:bg-dark-bg dark:text-dark-fg"
 >
-	<div class="flex-1 bg-[#1d2021]"></div>
-	<main class="bg-card relative flex-[10] p-8 transition-all duration-300 ease-out">
-		<div class="absolute right-0 top-0">
-			<ThemeToggle />
+	<ThemeToggle />
+	<main class="bg-card p-8 transition-all duration-300 ease-out">
+		<Bio description={lorem_ipsum} avatar="/pfp.jpg" />
+
+		<br />
+
+		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+			<h1
+				class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out"
+			>
+				PROJECTS
+			</h1>
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
 		</div>
 
-		<h1>Bio</h1>
-
 		<br />
 
 		<Project
-			title="LIGHT"
-			description_preview="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
-			description="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
+			title="Light"
+			headline="Dependency free, cross-platform and feature-rich 3D game engine."
+			description={lorem_ipsum}
 			icon="/light.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+		/>
+		<br />
+
+		<Project
+			title="Dazzle"
+			headline="Best way to learn is to teach, here be my articles."
+			description={lorem_ipsum}
+			icon="/signature.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+		/>
+		<br />
+
+		<Project
+			title="BONFIRE"
+			headline="You're enjoying its warmth on your eyes! :D"
+			description={lorem_ipsum}
+			icon="/signature.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+		/>
+		<br />
+
+		<Project
+			title="HIKARI"
+			headline="Toy raytracer written in Rust using Vulkan"
+			description={lorem_ipsum}
+			icon="/hikari.svg"
+			{repository}
+			{mirrors}
+			{gallery}
+			{features}
+		/>
+		<br />
+
+		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+			<h1
+				class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out"
+			>
+				EXPERIENCE
+			</h1>
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+		</div>
+		<br />
+
+		<Project
+			title="BITWYRE"
+			headline="C++ Engineer"
+			description={lorem_ipsum}
+			icon="/bitwyre-white.svg"
 			{repository}
 			{mirrors}
 			{gallery}
@@ -62,13 +131,13 @@
 			{graphicsApis}
 			{cicd}
 		/>
-
 		<br />
+
 		<Project
-			title="LIGHT"
-			description_preview="Dependency free, cross-platform, cross-graphics-api, bleeding-edge game engine."
-			description="Detailed description here."
-			icon="/light.svg"
+			title="Systematic Trading Group"
+			headline="C++ Engineer"
+			description={lorem_ipsum}
+			icon=""
 			{repository}
 			{mirrors}
 			{gallery}
@@ -77,8 +146,19 @@
 			{graphicsApis}
 			{cicd}
 		/>
+		<br />
+
+		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+			<h1
+				class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out"
+			>
+				CONTACT :D
+			</h1>
+			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+		</div>
+		<br />
 	</main>
-	<div class="flex-1 bg-[#1d2021]"></div>
 </div>
 <!-- Brief Bio
 -->
@@ -157,7 +237,7 @@ Bonfire is powered by:
 -->
 
 <!-- Work Experience -->
-<!-- Brief Bitwyrek -->
+<!-- Brief Bitwyre -->
 <!-- Details -->
 
 <!-- Brief STG -->
