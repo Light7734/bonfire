@@ -1,16 +1,28 @@
-<script>
+<script lang="ts">
+	function json_to_project(json: any) {
+		return {
+			title: json.title,
+			forge: json.forge,
+			codeberg: json.codeberg,
+			github: json.github,
+			gitlab: json.gitlab
+		};
+	}
+
 	import Project from './project.svelte';
 	import Bio from './bio.svelte';
-	import LanguageStats from './languages.svelte';
 	import ThemeToggle from './theme.svelte';
-	import TiltCard from './tiltcard.svelte';
+
+	import * as light from './projects/light.json';
+	import * as dazzle from './projects/dazzle.json';
+	import * as bonfire from './projects/bonfire.json';
+	import * as hikari from './projects/hikari.json';
 
 	import { Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
-	const repository = {
-		label: 'Repository',
-		url: 'https://git.light7734.com/light7734/light',
-		iconComponent: GitBranch
-	};
+	const light_data = json_to_project(light);
+	const dazzle_data = json_to_project(dazzle);
+	const bonfire_data = json_to_project(bonfire);
+	const hikari_data = json_to_project(hikari);
 
 	const mirrors = [
 		{ label: 'Github', url: 'https://github.com/light7734/light', iconComponent: Github },
@@ -29,11 +41,6 @@
 
 	const features = ['MSAA', 'SSAO', 'PBR Lighting'];
 
-	const languages = [{ name: 'C++23', icon: 'cplusplus.svg' }, { name: 'CMake' }];
-
-	const graphicsApis = ['Vulkan', 'Metal', 'DirectX12'];
-
-	const cicd = ['Drone', 'Docker'];
 	const lorem_ipsum =
 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
 </script>
@@ -64,7 +71,7 @@
 			headline="Dependency free, cross-platform and feature-rich 3D game engine."
 			description={lorem_ipsum}
 			icon="/light.svg"
-			{repository}
+			data={light_data}
 			{mirrors}
 			{gallery}
 			{features}
@@ -76,7 +83,7 @@
 			headline="Best way to learn is to teach, here be my articles."
 			description={lorem_ipsum}
 			icon="/signature.svg"
-			{repository}
+			data={dazzle_data}
 			{mirrors}
 			{gallery}
 			{features}
@@ -88,7 +95,7 @@
 			headline="You're enjoying its warmth on your eyes! :D"
 			description={lorem_ipsum}
 			icon="/signature.svg"
-			{repository}
+			data={bonfire_data}
 			{mirrors}
 			{gallery}
 			{features}
@@ -100,7 +107,7 @@
 			headline="Toy raytracer written in Rust using Vulkan"
 			description={lorem_ipsum}
 			icon="/hikari.svg"
-			{repository}
+			data={hikari_data}
 			{mirrors}
 			{gallery}
 			{features}
@@ -123,13 +130,9 @@
 			headline="C++ Engineer"
 			description={lorem_ipsum}
 			icon="/bitwyre-white.svg"
-			{repository}
 			{mirrors}
 			{gallery}
 			{features}
-			{languages}
-			{graphicsApis}
-			{cicd}
 		/>
 		<br />
 
@@ -138,13 +141,9 @@
 			headline="C++ Engineer"
 			description={lorem_ipsum}
 			icon=""
-			{repository}
 			{mirrors}
 			{gallery}
 			{features}
-			{languages}
-			{graphicsApis}
-			{cicd}
 		/>
 		<br />
 

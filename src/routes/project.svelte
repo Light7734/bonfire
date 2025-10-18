@@ -1,5 +1,16 @@
+<script context="module">
+</script>
+
 <script lang="ts">
 	import { ChevronDown, ChevronUp, ExternalLink, BookText } from 'lucide-svelte';
+
+	interface ProjectData {
+		title: string | undefined;
+		forge: string | undefined;
+		codeberg: string | undefined;
+		github: string | undefined;
+		gitlab: string | undefined;
+	}
 
 	import LanguageStats from './languages.svelte';
 	import TiltCard from './tiltcard.svelte';
@@ -16,6 +27,8 @@
 		name: string;
 		icon?: string;
 	}
+
+	export let data: ProjectData = { title: '', forge: '', codeberg: '', github: '', gitlab: '' };
 
 	export let title: string;
 	export let headline: string;
@@ -133,7 +146,6 @@
 				<h4 class="mb-1 font-medium">{title}'s Tech Stack':</h4>
 
 				<!-- GALLERY -->
-
 				<h3 class="text-muted-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
 					Gallery
 				</h3>
@@ -144,7 +156,7 @@
 				</div>
 
 				<div class="mx-auto w-full py-4">
-					<LanguageStats repositoryUrl="https://github.com/light7734/light" />
+					<LanguageStats repositoryUrl={data.github ? data.github : ''} />
 				</div>
 
 				<div class="flex items-start justify-start gap-0">
@@ -180,17 +192,15 @@
 							Mirrors
 						</h3>
 						<div class="flex flex-wrap gap-3">
-							{#each mirrors as link}
-								<a
-									href={link.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
-								>
-									<svelte:component this={link.iconComponent} class="h-4 w-4" />
-									{link.label}
-								</a>
-							{/each}
+							<a
+								href={data.gitlab}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
+							>
+								<Gitlab class="h-4 w-4" />
+								"Gitlab"
+							</a>
 						</div>
 					</div>
 				</div>
