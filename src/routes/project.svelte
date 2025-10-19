@@ -2,54 +2,37 @@
 </script>
 
 <script lang="ts">
-	import { ChevronDown, ChevronUp, ExternalLink, BookText } from 'lucide-svelte';
-
+	import { ChevronDown, ChevronUp, BookText, Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
 	interface ProjectData {
 		title: string | undefined;
+		icon: string;
+		headline: string;
 		forge: string | undefined;
 		codeberg: string | undefined;
 		github: string | undefined;
 		gitlab: string | undefined;
+		docs: string | undefined;
+		gallery: string[] | undefined;
 	}
 
 	import LanguageStats from './languages.svelte';
 	import TiltCard from './tiltcard.svelte';
 
-	import { Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
+	export let data: ProjectData = {
+		title: '',
+		icon: '',
+		headline: '',
+		forge: '',
+		codeberg: '',
+		github: '',
+		gitlab: '',
+		docs: '',
+		gallery: undefined
+	};
 
-	interface ProjectLink {
-		label: string;
-		url: string;
-		iconComponent: any;
-	}
-
-	interface Language {
-		name: string;
-		icon?: string;
-	}
-
-	export let data: ProjectData = { title: '', forge: '', codeberg: '', github: '', gitlab: '' };
-
-	export let title: string;
-	export let headline: string;
 	export let description: string;
-	export let icon: string;
-	export let repository: ProjectLink = { label: 'Forgejo', url: '', iconComponent: GitBranch };
-	export let mirrors: ProjectLink[] = [
-		{ label: 'Github', url: '', iconComponent: Github },
-		{ label: 'Gitlab', url: '', iconComponent: Gitlab },
-		{ label: 'Codeberg', url: '', iconComponent: Code }
-	];
-	export let documentation: string = '';
-	export let gallery: string[] = [];
-	export let features: string[] = [];
 
-	let expansionStage = 0; // 0: collapsed, 1: description, 2: gallery, 3: source code
-	const MAX_STAGE = 1;
-
-	function toggleExpansion() {
-		expansionStage = expansionStage >= MAX_STAGE ? 0 : expansionStage + 1;
-	}
+	let expanded = false; // 0: collapsed, 1: description, 2: gallery, 3: source code
 
 	import { slide } from 'svelte/transition';
 
@@ -84,76 +67,38 @@
 	on:mouseleave={handleMouseLeave}
 >
 	<div class="p-6">
-		{#if icon !== ''}
-			<div class="mb-4 flex items-center gap-4">
-				<div class="flex-shrink-0">
-					<TiltCard imageSrc={icon} imageAlt="{title} icon" width="256px" height="256px" />
-				</div>
-				<div class="m-4 min-w-0 flex-1">
-					<div>
-						<h1 class="font-mono text-4xl uppercase">{title}</h1>
-
-						<div class="border-border w-full self-center border-t p-1"></div>
-						<p class="text-muted-foreground leading-relaxed">
-							{headline}
-						</p>
-					</div>
-				</div>
+		<div class="mb-4 flex items-center gap-4">
+			<div class="flex-shrink-0">
+				<TiltCard imageSrc={data.icon} imageAlt="{data.title} icon" width="256px" height="256px" />
 			</div>
-		{:else}
 			<div class="m-4 min-w-0 flex-1">
 				<div>
-					<h1 class="font-mono text-3xl">{title}</h1>
+					<h1 class="font-mono text-4xl uppercase">{data.title}</h1>
 
 					<div class="border-border w-full self-center border-t p-1"></div>
 					<p class="text-muted-foreground leading-relaxed">
-						{headline}
+						{data.headline}
 					</p>
 				</div>
 			</div>
-		{/if}
-
-		{#if expansionStage >= 1}
-			<div transition:slide={{ duration: 500 }} class="ease-out">
+		</div>
+		{#if expanded}
+			<div transition:slide={{ duration: 150 }} class="ease-in">
 				<p class="text-muted-foreground pb-8 leading-relaxed">
 					{description}
 				</p>
 
-				<!-- LANGUAGES -->
+				{#if data.gallery}
+					<h3 class="text-muted-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
+						Gallery
+					</h3>
 
-				<h3 class="text-muted-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
-					Supported Graphics-APIs
-				</h3>
-
-				<div class="flex flex-wrap gap-3">
-					<p>Vulkan</p>
-
-					<p>DirectX</p>
-
-					<p>Metal</p>
-				</div>
-
-				<h3 class="text-muted-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
-					Features
-				</h3>
-
-				<!-- FEATURES -->
-				<ul class="text-muted-foreground mb-2 list-disc pl-5">
-					{#each features as feature}
-						<li>{feature}</li>
-					{/each}
-				</ul>
-				<h4 class="mb-1 font-medium">{title}'s Tech Stack':</h4>
-
-				<!-- GALLERY -->
-				<h3 class="text-muted-foreground mb-3 text-sm font-semibold uppercase tracking-wide">
-					Gallery
-				</h3>
-				<div class="mb-4 grid grid-cols-3 gap-2">
-					{#each gallery as img}
-						<img src={img} alt="{title} screenshot" class="rounded object-cover" />
-					{/each}
-				</div>
+					<div class="mb-4 grid grid-cols-3 gap-2">
+						{#each data.gallery as img}
+							<img src={img} alt="{data.title} screenshot" class="rounded object-cover" />
+						{/each}
+					</div>
+				{/if}
 
 				<div class="mx-auto w-full py-4">
 					<LanguageStats repositoryUrl={data.github ? data.github : ''} />
@@ -166,24 +111,26 @@
 						</h3>
 						<div class="flex flex-wrap gap-3">
 							<a
-								href={repository.url}
+								href={data.forge}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
 							>
-								<svelte:component this={repository.iconComponent} class="h-4 w-4" />
-								{repository.label}
+								<GitBranch />
+								Forge
 							</a>
 
-							<a
-								href={documentation}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
-							>
-								<BookText class="h-4 w-4" />
-								Documentation
-							</a>
+							{#if data.docs}
+								<a
+									href={data.docs}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
+								>
+									<BookText class="h-4 w-4" />
+									Documentation
+								</a>
+							{/if}
 						</div>
 					</div>
 					<div class="border-border mx-4 h-8 self-center border-l"></div>
@@ -193,13 +140,33 @@
 						</h3>
 						<div class="flex flex-wrap gap-3">
 							<a
+								href={data.github}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
+							>
+								<Github class="h-4 w-4" />
+								Github
+							</a>
+
+							<a
 								href={data.gitlab}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
 							>
 								<Gitlab class="h-4 w-4" />
-								"Gitlab"
+								Gitlab
+							</a>
+
+							<a
+								href={data.gitlab}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
+							>
+								<Code class="h-4 w-4" />
+								Codeberg
 							</a>
 						</div>
 					</div>
@@ -209,10 +176,12 @@
 	</div>
 
 	<button
-		on:click={toggleExpansion}
+		on:click={function () {
+			expanded = !expanded;
+		}}
 		class="bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground border-border group flex w-full items-center justify-center gap-2 rounded-b-lg border-t px-6 py-3 transition-colors duration-200"
 	>
-		{#if expansionStage >= MAX_STAGE}
+		{#if expanded}
 			<ChevronUp
 				class="h-4 w-16 transition-transform duration-200 group-hover:translate-y-[-2px]"
 			/>
@@ -221,7 +190,7 @@
 				class="h-30 w-30 transition-transform duration-200 group-hover:translate-y-[2px]"
 			/>
 			<span class="font-bold">
-				{#if expansionStage === 0}
+				{#if !expanded}
 					DETAILS
 				{/if}
 			</span>

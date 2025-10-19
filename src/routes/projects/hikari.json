@@ -1,8 +1,13 @@
 {
     "title": "Hikari",
+    "icon": "/hikari.svg",
+    "headline": "Toy raytracer written in Rust using Vulkan",
     "forge": "https://git.light7734.com/light7734/hikari",
     "codeberg": "https://codeberg.org/light7734/hikari",
     "github": "https://github.com/light7734/hikari",
-    "gitlab": "https://gitlab.com/light7734/hikari"
+    "gitlab": "https://gitlab.com/light7734/hikari",
+    "gallery": [
+        "/hikari_raytrace.png"
+    ]
 }
 
