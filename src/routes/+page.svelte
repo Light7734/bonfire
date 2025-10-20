@@ -28,9 +28,7 @@
 	const hikari_data = json_to_project(hikari);
 </script>
 
-<div
-	class="min-h-screen bg-light-bg text-light-fg transition-colors duration-300 dark:bg-dark-bg dark:text-dark-fg"
->
+<div class="min-h-screen bg-dark-bg text-dark-fg transition-colors duration-300">
 	<main class="bg-card p-8 transition-all duration-300 ease-out">
 		<Bio />
 

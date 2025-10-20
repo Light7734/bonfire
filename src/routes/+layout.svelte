@@ -1,14 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	let { children } = $props();
-	import ThemeToggle from './theme.svelte';
 </script>
 
 <div class="flex min-h-screen bg-dark-bg">
-	<div class="absolute right-0 top-0">
-		<ThemeToggle />
-	</div>
-
 	<!-- Left Section - Hidden on mobile, visible on lg screens -->
 	<div class="relative hidden border-r border-dark-neutral lg:flex lg:w-1/4">
 		<!-- Diagonal line pattern -->
