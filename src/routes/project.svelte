@@ -7,6 +7,7 @@
 		title: string | undefined;
 		icon: string;
 		headline: string;
+		description: string;
 		forge: string | undefined;
 		codeberg: string | undefined;
 		github: string | undefined;
@@ -22,6 +23,7 @@
 		title: '',
 		icon: '',
 		headline: '',
+		description: '',
 		forge: '',
 		codeberg: '',
 		github: '',
@@ -30,9 +32,7 @@
 		gallery: undefined
 	};
 
-	export let description: string;
-
-	let expanded = false; // 0: collapsed, 1: description, 2: gallery, 3: source code
+	let expanded = false;
 
 	import { slide } from 'svelte/transition';
 
@@ -85,7 +85,7 @@
 		{#if expanded}
 			<div transition:slide={{ duration: 150 }} class="ease-in">
 				<p class="text-muted-foreground pb-8 leading-relaxed">
-					{description}
+					{data.description}
 				</p>
 
 				{#if data.gallery}
@@ -99,10 +99,6 @@
 						{/each}
 					</div>
 				{/if}
-
-				<div class="mx-auto w-full py-4">
-					<LanguageStats repositoryUrl={data.github ? data.github : ''} />
-				</div>
 
 				<div class="flex items-start justify-start gap-0">
 					<div class="flex-none">

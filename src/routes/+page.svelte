@@ -4,6 +4,7 @@
 			title: json.title,
 			icon: json.icon,
 			headline: json.headline,
+			description: json.description,
 			forge: json.forge,
 			codeberg: json.codeberg,
 			github: json.github,
@@ -15,7 +16,6 @@
 
 	import Project from './project.svelte';
 	import Bio from './bio.svelte';
-	import ThemeToggle from './theme.svelte';
 
 	import * as light from './projects/light.json';
 	import * as dazzle from './projects/dazzle.json';
@@ -26,9 +26,6 @@
 	const dazzle_data = json_to_project(dazzle);
 	const bonfire_data = json_to_project(bonfire);
 	const hikari_data = json_to_project(hikari);
-
-	const lorem_ipsum =
-		'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
 </script>
 
 <div
@@ -51,16 +48,16 @@
 
 		<br />
 
-		<Project description={lorem_ipsum} data={light_data} />
+		<Project data={light_data} />
 		<br />
 
-		<Project description={lorem_ipsum} data={dazzle_data} />
+		<Project data={dazzle_data} />
 		<br />
 
-		<Project description={lorem_ipsum} data={bonfire_data} />
+		<Project data={hikari_data} />
 		<br />
 
-		<Project description={lorem_ipsum} data={hikari_data} />
+		<Project data={bonfire_data} />
 		<br />
 
 		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
@@ -74,18 +71,12 @@
 		</div>
 		<br />
 
-		<!-- <Project headline="C++ Engineer" description={lorem_ipsum} /> -->
-		<!-- <br /> -->
-		<!---->
-		<!-- <Project headline="C++ Engineer" description={lorem_ipsum} /> -->
-		<!-- <br /> -->
-
 		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
 			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
 			<h1
 				class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out"
 			>
-				CONTACT :D
+				CONTACT
 			</h1>
 			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
 		</div>
@@ -97,10 +88,6 @@
 
 <!--OPEN SOURCE PROJECTS -->
 <!-- Description
-I love teaching! I've learned that it's the most effective way to solidify your knowledge and leave
-little to no gaps. Dazzle is the collection of my articles teaching a subject in depth. It delves
-into topics such as rendering, mathematics, guidelines and more. It's just my way of giving back to
-the community!
 -->
 <!-- Gallery 
 <...images...>

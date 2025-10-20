@@ -1,7 +1,8 @@
 {
     "title": "Bonfire",
     "icon": "/signature.svg",
-    "headline": "You're enjoying its warmth on your eyes! : D",
+    "headline": "You're looking at it!",
+    "description": "Bonfire is my portfolio project, which you're looking at right now... it's built with the Svelte framework and lots of love ^^",
     "forge": "https://git.light7734.com/light7734/bonfire",
     "codeberg": "https://codeberg.org/light7734/bonfire",
     "github": "https://github.com/light7734/bonfire",

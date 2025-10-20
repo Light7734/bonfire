@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	let { children } = $props();
-
 	import ThemeToggle from './theme.svelte';
 </script>
 
@@ -33,7 +32,7 @@
 	</div>
 
 	<!-- Main Content Section -->
-	<div class="relative min-w-[800px] flex-1 lg:w-1/2">
+	<div class="relative flex-1 lg:w-3/5">
 		<!-- Left diagonal border -->
 		<div class="absolute bottom-0 left-0 top-0 w-8 overflow-hidden lg:w-12">
 			<svg class="h-full w-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
