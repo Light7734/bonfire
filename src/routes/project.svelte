@@ -156,7 +156,7 @@
 							</a>
 
 							<a
-								href={data.gitlab}
+								href={data.codeberg}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
