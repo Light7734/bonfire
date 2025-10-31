@@ -35,36 +35,11 @@
 	let expanded = false;
 
 	import { slide } from 'svelte/transition';
-
-	let tiltX = 0;
-	let tiltY = 0;
-
-	function handleMouseMove(event: MouseEvent) {
-		const card = event.currentTarget as HTMLElement;
-		const rect = card.getBoundingClientRect();
-		const x = event.clientX - rect.left;
-		const y = event.clientY - rect.top;
-		const centerX = rect.width / 2;
-		const centerY = rect.height / 2;
-		const percentX = (x - centerX) / centerX;
-		const percentY = (centerY - y) / centerY; // Invert Y for natural tilt
-		const maxTilt = 2;
-		tiltX = percentY * maxTilt;
-		tiltY = percentX * maxTilt;
-	}
-
-	function handleMouseLeave() {
-		tiltX = 0;
-		tiltY = 0;
-	}
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="bg-card border-border relative mx-auto w-full max-w-2xl rounded-lg border transition-all duration-300 ease-out hover:scale-[1.01] hover:shadow-[5px_5px_5px_#000000]"
-	style="transform: perspective(1000px) rotateX({tiltX}deg) rotateY({tiltY}deg);"
-	on:mousemove={handleMouseMove}
-	on:mouseleave={handleMouseLeave}
+	class="bg-card border-border relative mx-auto w-full max-w-2xl rounded-lg border transition-all duration-100 ease-out hover:scale-[1.01] hover:shadow-[5px_5px_5px_#000000]"
 >
 	<div class="p-6">
 		<div class="mb-4 flex items-center gap-4">
