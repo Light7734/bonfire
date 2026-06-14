@@ -8,9 +8,17 @@ trigger:
 node:
   environment: ryali
 
+volumes:
+  - name: bonfire
+    host:
+      path: /bonfire
+
 steps:
 - name: build
   image: node:latest
+  volumes:
+    - name: bonfire
+      path: /bonfire
   commands:
     - npm install
     - npm run build
