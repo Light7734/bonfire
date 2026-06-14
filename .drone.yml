@@ -1,23 +1,37 @@
 kind: pipeline
 type: docker 
 name: deploy_dev
+node:
+  environment: ryali
 trigger:
   branch:
   - main
 
-node:
-  environment: ryali
-
 steps:
-- name: build
+- name: build and deploy
   image: node:latest
   commands:
-    - ls -la /bonfire
     - npm install
     - npm run build
-    - ls -l ./
-    - ls -l ./build
+    - rm -rf /bonfire_dev/*
+    - mv ./build/* /bonfire_dev/
+
+---
+kind: pipeline
+type: docker 
+name: deploy_prod
+node:
+  environment: ryali
+trigger:
+  event:
+  - tag
+
+steps:
+- name: build and deploy
+  image: node:latest
+  commands:
+    - npm install
+    - npm run build
     - rm -rf /bonfire/*
     - mv ./build/* /bonfire/
-    - ls -l /bonfire
-    
+
