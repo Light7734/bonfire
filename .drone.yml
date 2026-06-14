@@ -22,6 +22,11 @@ steps:
   commands:
     - npm install
     - npm run build
+    - pwd
+    - ls -la
+    - ls -la ./build
+    - ls -la /bonfire
     - rm -rf /bonfire/*
     - mv ./build/* /bonfire/
+    - ls -la /bonfire
     
