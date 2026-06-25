@@ -81,6 +81,18 @@
 							Source
 						</h3>
 						<div class="flex flex-wrap gap-3">
+							{#if data.docs}
+								<a
+									href={data.docs}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
+								>
+									<BookText class="h-4 w-4" />
+									Docs
+								</a>
+							{/if}
+
 							<a
 								href={data.forge}
 								target="_blank"
@@ -90,18 +102,6 @@
 								<GitBranch />
 								Forge
 							</a>
-
-							{#if data.docs}
-								<a
-									href={data.docs}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
-								>
-									<BookText class="h-4 w-4" />
-									Documentation
-								</a>
-							{/if}
 						</div>
 					</div>
 					<div class="border-border mx-4 h-8 self-center border-l"></div>
