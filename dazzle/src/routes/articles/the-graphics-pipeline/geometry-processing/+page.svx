@@ -1,0 +1,937 @@
+---
+title: The Graphics Pipeline - Part 1
+date: "April 20 - 2025"
+---
+
+<script>
+import Image from "../../Image.svelte"
+import Note from "../../Note.svelte"
+import Tip from "../../Tip.svelte"
+
+let a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
+let A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
+let red, green, yellow, blue, purple, cyan, orange, black, white, gray, color;
+
+</script>
+
+Ever wondered how games put all that gore on your display? All that beauty is brought into life by
+a process called **rendering**, and at the heart of it, is the **graphics pipeline**.
+
+In this article, we'll dive deeply into the intricate details of this powerful beast.
+Don't worry if things don't click right away---we’ll go over all the key terms and restate the important stuff to help it sink in.
+And hey, if you still have questions, feel free to reach out :)
+
+Initially, I tried cramming everything in **one article**, which hurt the **brevity** and the **structure**.
+The **graphics pipeline** is a beast---incredibly **complex** and constantly **evolving**.
+So I split it into a **4-part series**, which lets me go into sufficient depth for each stage.
+But why exactly **4-parts**?
+
+## Overview
+
+Like any pipeline, the **graphics pipeline** is made up of several **stages**, 
+each of which can be a mini-pipeline in itself or even parallelized.
+Each stage takes some **input** (data and configuration) to generate some **output** data for the next stage.
+
+<Note title="High level breakdown of the graphics pipeline", type="diagram">
+
+Application --> **Geometry Processing** --> Rasterization --> Pixel Processing --> Presentation
+</Note>
+
+Before the heavy rendering work starts on the <Tip text="GPU">Graphics Processing Unit</Tip>,
+we simulate and update the world through **systems** such as physics engine, game logic, networking, etc.
+all in the **application** stage.
+This stage is mostly ran on the <Tip text="CPU">Central Processing Unit</Tip>, 
+therefore it is extremely efficient on executing <Tip text="sequentially dependent logic">
+A type of execution flow where the operations depend on the results of previous steps, limiting parallel execution.
+In other words, **CPUs** are great at executing **branch-heavy** code, and **GPUs** are geared
+towards executing a TON of **branch-less** or **branch-light** code in parallel---Like executing some
+code for each pixel on your screen, there are a ton of pixels but they mostly do their own independent logic.  </Tip>.
+
+The updated scene data is then prepped and fed to the **GPU** for **geometry processing**. Here 
+we figure out where everything ends up on our screen by doing lots of fancy linear algebra.
+We'll cover this stage in depth very soon so don't panic (yet).
+
+Afterwards, the final geometric data are converted into <Tip text="pixels"> Pixel is the shorthand for **picture-element**, Voxel is the shorthand for **volumetric-element**. </Tip>
+and prepped for the **pixel processing** stage via a process called **rasterization**.
+In other words, this stage converts a rather abstract and internal presentation (geometry)
+into something more concrete (pixels). It's called rasterization because the end product is a <Tip text="raster">Noun. A rectangular pattern of parallel scanning lines followed by the electron beam on a television screen or computer monitor. -- 1930s: from German Raster, literally ‘screen’, from Latin rastrum ‘rake’, from ras- ‘scraped’, from the verb radere. ---Oxford Languages</Tip> 
+(a grid) of pixels.
+
+The **pixel processing** stage then uses the rasterized geometry data (pixel data) to do
+**lighting**, **texturing**, **shadow-mapping**, and all the sweet gory details of a scene (like a murder scene). 
+In short, this stage is responsible for calculating the **final output color** of each pixel.
+
+The pipeline will then serve (present) the output of the **pixel processing** stage, which is a **rendered image**,
+to your pretty eyes using your <Tip text="display">Usually a monitor but the technical term for it is
+the target **surface**. Which can be anything like a VR headset or some other crazy surface used for displaying purposes.</Tip>.
+
+<Note type="info", title="Chapters of The Graphics Pipeline">
+
+**Geometry Processing**: How geometry is **represented**, **interpreted**, **transformed** and **expanded**.
+
+**Rasterization**: How the final geometric data is converted into **pixels** and what data they hold. 
+
+**Pixel Processing**: How we figure out the **final output color** of each pixel.
+
+**Optimizations**: How modern game-engines like Unreal Engine 5 optimize the pipeline.
+
+</Note>
+
+I hope it is now evident why I chose to split the concepts in 4-parts. So... let's jump right into the gory details of the **geometry processing**
+stage!
+
+## Surfaces
+
+Ever been jump-scared by this sight in an <Tip text="FPS">First person (shooter) perspective</Tip>? Why are (the inside of) things rendered like that?
+
+<Note title="Boo!", type="image">
+
+<Image 
+    paths={["/images/boo.png"]} 
+/> 
+
+</Note>
+
+
+In order to display a (murder) scene, 
+we need to have a way of **representing** the **surface** of its composing objects (like corpses) in computer memory.
+We only care about the **surface** since we won't be seeing the insides anyway---Not that we want to.
+At this stage, we only care about the **shape** or the **geometry** of the **surface**.
+Texturing, lighting, and all the sweet gory details come at a much later stage once all the **geometry** has been processed.
+
+But how do we represent surfaces in computer memory?
+
+## Vertices
+
+There are several ways to **represent** the surfaces of 3d objects for a computer to understand.
+For instance, <Tip text="NURBS">
+**Non-uniform rational basis spline** is a mathematical model using **basis splines** (B-splines) that is commonly used in computer graphics for representing curves and surfaces. It offers great flexibility and precision for handling both analytic (defined by common mathematical formulae) and modeled shapes. ---Wikipedia</Tip> surfaces are great for representing **curves**, and it's all about the
+**high precision** needed to do <Tip text="CAD">Computer Assisted Design</Tip>. We could also do **ray-tracing** using fancy equations for
+rendering **photo-realistic** images.
+
+These are all great---ignoring the fact that they would take an eternity to process...
+But what we need is a **performant** approach that can do this for an entire scene with
+hundreds of thousands of objects (like a lot of corpses) in under a small fraction of a second. What we need is **polygonal modeling**.
+
+**Polygonal modeling** enables us to do an exciting thing called **real-time rendering**. The idea is that we only need an
+**approximation** of a surface to render it **realistically enough** for us to have some fun killing time!
+We can achieve this approximation using a collection of **triangles**, **lines**, and **dots** (primitives),
+which themselves are composed of a series of **vertices** (points in space).
+
+<Note title="A sphere made out of triangles", type="image">
+
+<Image 
+    paths={["/images/polygon_sphere.webp"]} 
+/> 
+
+</Note>
+
+A **vertex** is simply a point in space.
+Once we get enough of these **points**, we can connect them to form **primitives** such as **triangles**, **lines**, and **dots**.
+And once we connect enough of these **primitives** together, they form a **model** or a **mesh** (that we need for our corpse).
+With some interesting models put together, we can compose a **scene** (like a murder scene :D).
+
+<Note title="Stanford bunny model in increasing level of detail (LoD)", type="image">
+
+<Image 
+    paths={["/images/bunny.jpg"]} 
+/> 
+
+</Note>
+
+But let's not get ahead of ourselves. The primary type of **primitive** that we care about during **polygonal modeling**
+is a **triangle**. But why not squares or polygons with a variable number of edges?
+
+## Why Triangles?
+
+In <Tip text="Euclidean geometry"> Developed by **Euclid** around 300 BCE, is based on five axioms. It describes properties of shapes, angles, and space using deductive reasoning. It remained the standard model of geometry for centuries until non-Euclidean geometries and general relativity showed its limits. It's still widely used in education, engineering, and **computer graphics**. ---Wikipedia </Tip>, triangles are always **planar** (they exist only in one plane), 
+any polygon composed of more than 3 points may break this rule, but why is it so important that polygons reside in one plane?
+
+<Note title="Planar vs Non-Planar polygons" type="image">
+
+<Image 
+    paths={["/images/planar.jpg", "/images/non_planar_1.jpg", "/images/non_planar_2.png"]} 
+/> 
+
+</Note>
+
+When a polygon exists only in one plane, we can safely imply that **only one face** of it can be visible
+at any one time; this enables us to utilize a huge optimization technique called **back-face culling**.
+Which means we avoid wasting a ton of **precious processing time** on the polygons that 
+we know won't be visible to us. We can safely **cull** the **back-faces** since we won't
+be seeing the **back** of a polygon when it's in the context of a closed-off model. 
+We figure this out by simply using the **winding order** of the triangle to determine whether we're looking at the
+back of the triangle or the front of it---I'll go in depth about **culling** in part 4.
+
+Triangles also have a very small **memory footprint**; for instance, when using the **triangle-strip** topology (more on this very soon), for each additional triangle after the first one, only **one extra vertex** is needed.
+
+The most important attribute, in my opinion, is the **algorithmic simplicity**.
+Any polygon or shape can be composed from a **set of triangles**; for instance, a rectangle is simply **two coplanar triangles**.
+Also, it is a common practice in computer science to break down hard problems into simpler, smaller problems. 
+Trust me, this will be a lot more convincing when we cover the **rasterization** stage in part 2 :)
+
+<Note title="Evolution", type="info">
+
+As a bonus point to consider; present-day **hardware** and **algorithms** have become **extremely efficient** at processing 
+triangles by doing operations such as sorting, rasterizing, etc, after eons of evolving around them.
+
+We literally have a **fixed function** (unprogrammable) stage in the pipeline dedicated for rasterizing
+triangles.
+
+</Note>
+
+## Primitive Topology
+So, we got our set of vertices, but having a bunch of points floating around wouldn't make a scene very lively
+(or gory), we need to form **triangles** out of them to compose **models** (like our beautiful corpse).
+
+The **input assembler** is first the (sub)stage in the **geometry processing** stage. And it's responsible for **concatenating** our vertices (the input) to assemble **primitives**.
+It is a **fixed function** stage so we can only configure it (it's not programmable).
+We can tell the assembler how it should interpret the vertex data by configuring its **primitive** <Tip text="toplogy"> The way in which constituent parts are interrelated or arranged.--mid 19th century: via German from Greek topos ‘place’ + -logy.---Oxford Languages </Tip>.
+
+Instead of explaining with words, I'm going to show you how each type of topology works with pictures. So buckle up!
+
+When the topology is **point list**, each **consecutive vertex** (v) defines a **single point** primitive (p)
+and the number of primitives (n of p) is equals to the number of vertices (n of v).
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_point_list.svg"]} 
+/> 
+
+</Note>
+
+<Note type="math" flow=true>
+
+```math
+\begin{aligned}
+&p_i = \{ v_{i} \} \\ &n_p = n_v
+\end{aligned}
+```
+
+</Note>
+
+When the topology is **line list**, each **consecutive pair of vertices** defines a **single line**:
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_line_list.svg"]} 
+/> 
+
+</Note>
+
+<Note  type="math" flow=true>
+
+```math
+\begin{aligned}
+&p_i = \{ v_{2i},\ v_{2i+1} \} \\ &n_p = ⌊ n_v / 2 ⌋
+\end{aligned}
+```
+
+</Note>
+
+When the primitive topology is **line strip**, **one line** is defined by each **vertex and the following vertex**:
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_line_strip.svg"]} 
+/> 
+
+</Note>
+
+
+<Note  type="math" flow=true>
+
+```math
+\begin{aligned}
+    &p_i = \{ v_i, v_{i+1} \} \\ &n_p = \text{max}(0, n_v - 1)
+\end{aligned}
+```
+
+</Note>
+
+When the primitive topology is **triangle list**, each **consecutive set of three vertices** defines a **single triangle**:
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_triangle_list.svg"]} 
+/> 
+
+</Note>
+
+<Note  type="math" flow=true>
+
+```math
+\begin{aligned}
+    &p_i = \{ v_{3i}, v_{3i+1}, v_{3i+2} \} \\ &n_p = ⌊n_v / 3⌋
+\end{aligned}
+```
+
+</Note>
+
+When the primitive topology is **triangle strip**, **one triangle** is defined by each **vertex and the two vertices that follow it**:
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_triangle_strip.svg"]} 
+/> 
+
+</Note>
+
+<Note  type="math" flow=true>
+
+```math
+\begin{aligned}
+    &p_i = \{ v_i,\ v_{i + (1 + i \bmod 2)},\ v_{i + (2 - i \bmod 2)} \} \\ &n_p = \text{max}(0,  n_v- 2)
+\end{aligned}
+```
+
+</Note>
+
+
+When the primitive topology is **triangle fan**, **triangles** are defined **around a shared common vertex**:
+
+<Note title="", type="image">
+
+<Image 
+    paths={["/images/primitive_topology_triangle_fan.svg"]} 
+/> 
+
+</Note>
+
+<Note type="math" flow=true>
+
+```math
+\begin{aligned}
+    &p_i = \{ v_{i+1}, v_{i+2}, v_0 \} \\ &n_p = \text{max}(0, n_v - 2)
+\end{aligned}
+```
+
+</Note>
+
+## Indices
+
+
+**Indices** are an array of integers that reference the **vertices** in a vertex buffer.
+They define the **order** in which vertices should be read (and re-read) by the **input assembler**. 
+Which allows **vertex reuse** and reduces memory usage by preventing duplicate vertices.
+
+Imagine the following scenario:
+```cc
+float triangle_vertices[] = {
+ // x__,  y__
+    0.0,  0.5, // center top
+   -0.5, -0.5, // bottom left
+    0.5, -0.5, // bottom right
+};
+```
+
+Here we have one triangle primitive, cool! Now let's create a rectangle:
+```cc
+float vertices[] = {
+  // first triangle
+  // x__   y__
+     0.5,  0.5, // top right
+     0.5, -0.5, // bottom right << DUPLICATE
+    -0.5,  0.5, // top left << DUPLICATE
+
+  // second triangle
+  // x__   y__
+     0.5, -0.5, // bottom right << DUPLICATE
+    -0.5, -0.5, // bottom left
+    -0.5,  0.5, // top left << DUPLICATE
+}; 
+```
+
+As indicated by the comments, we have two **identical** vertices. This situation only gets worse 
+for each additional **attribute** per vertex (vertices pack a lot more information than positions, we'll get to it later).
+And in a large model with hundreds of thousands of triangles, it becomes unacceptable. To remedy this problem, we do
+**indexed rendering**:
+
+```cc
+float vertices[] = {
+  // first triangle
+  // x__   y__
+     0.5,  0.5, // top right    [0]
+     0.5, -0.5, // bottom right [1]
+    -0.5, -0.5, // bottom left  [2]
+    -0.5,  0.5, // top left     [3]
+};
+
+unsigned int indices[] = {
+    0, 1, 3,   // first triangle
+    1, 2, 3    // second triangle
+};  
+```
+
+And you might be asking, what about **triangle strips** we just talked about? Well, if you try to visualize it,
+a **large model** cannot possibly be made from a **single strip** of triangles, but from **many**. And we might not even use
+triangle **strips**---we might use triangle **lists**.
+
+Either way, using indices is optional but almost always a good idea to use them!
+
+
+<Note title="Post-Transform Vertex Cache", type="info">
+
+Indexed rendering also allows the GPU to use a neat optimization trick called **post-transform vertex cache** where
+if the same index is used after **transformations** happened, it'll fetch the result that's recently cached and
+won't re-run the transformation logic again.
+
+I'll explain how vertices are transformed soon, don't worry (yet).
+
+</Note>
+
+## **Input Assembler**
+Alrighty! Do we have everything we need?
+
+We got our surface representation---**vertices**. We set the **primitive topology** to determine
+how to concatenate them. And we optionally (but most certainly) provided some **indices** to avoid
+duplication.
+
+All this data (and configuration) is then fed to the very first (sub)stage of the **graphics pipeline** called
+the **input assembler**. Which as stated before, is responsible for **assembling** primitives from our **input** (vertices and indices)
+
+<Note type="diagram", title="Geometry Processing">
+
+[Vertex/Index Data] --> Input Assembler --> ...
+
+</Note>
+
+So what comes next?
+
+## Coordinate System -- Overview
+**Assembling primitives** is the **first** essential task in the **geometry processing** stage, and 
+everything you read so far only went over that part.
+Its **second** vital responsibility is the **transformation** of the said primitives. Let me explain.
+
+So far, our examples show the geometry in **normalized device coordinates**; or **NDC** for short.
+This is a small space where the x, y and z values are in range of [-1.0 -> 1.0].
+Anything outside this range will be **clipped** and won't be visible on screen. 
+Below is our old triangle again which was specified within **NDC**---ignoring the z for now:
+
+```cc
+float triangle_vertices[] = {
+ // x__,  y__
+    0.0,  0.5, // center top
+   -0.5, -0.5, // bottom left
+    0.5, -0.5, // bottom right
+};
+```
+
+This is because the **rasterizer** expects the **final vertex coordinates** to be in the **NDC** range.
+Anything outside of this range is, again, **clipped** and not visible.
+
+Yet, as you might imagine, doing everything in the **NDC** is inconvenient and very limiting.
+We'd like to **compose** a scene by <Tip text="transforming">Scale, Rotate, Translate. </Tip> some objects around, **interact**
+with the scene by moving and looking around, and express coordinates in arbitrary 
+units such as meters---or yards and inches if you're American.
+
+This is done by transforming these vertices through **5 coordinate systems** before ending up in NDC
+(or outside of if they're meant to be clipped). Here's a high-level overview:
+
+**Local Space**: This is where your model begins in, think of it as the data exported from a model
+using Blender. If we were to modify a model (the model's vertices itself, not its transformation) it would make most sense to do it here.
+
+**World Space**: All objects will be stuck into each other at coordinates 0, 0, 0 if we don't move them
+around the world. This is the transformation that puts your object in the context of the **world**.
+
+**View Space**: Then we transform everything that was relative to the world in such a way that each
+vertex is seen from the viewer's point of **view**.
+
+**Clip Space**: Then we **project** everything to the clip coordinates, which is in the range of -1.0 and 1.0.
+This **projection** is what makes **perspective** possible (distant objects appearing smaller).
+
+**Screen Space**: This one is out of our control, it simply puts our now normalized coordinates
+unto the screen.
+
+As you can see each of these coordinates systems serve a specific purpose and allows **composition** and **interaction** with a scene.
+However, doing these **transformations** require a lot of **linear algebra**, specially a ton of **matrix operations**.
+So, before we get into more depth about these coordinate systems, let's learn how to do **linear transformations** using **linear algebra**!
+
+
+<Note title="Mathematics Ahead!">
+
+The concepts in the following sections may be difficult to grasp at first. And **that's okay**, you don't
+need to pickup everything the first time you read them (I didn't). If you feel passionate about these topics
+and want to have a better grasp, refer to the references at the bottom of this article and **take
+your time** :)
+
+</Note>
+
+## Linear Algebra --- Vectors
+
+**Vectors** are the **fundamental** building blocks of **linear algebra**. And we're going to get
+really familiar with them :) But what is a **vector** anyways? As all things in life, it depends.
+
+For a **physicist**, vectors are **arrows pointing in space**, and what defines them is their **length** (or **magnitude**)
+and **direction**---that is, any two vectors moved to different **origins** (starting points) are the **same vectors**,
+as long as their **length** and **direction** remain the same:
+
+<Note type="image", title="Physicist">
+
+**Insert Image Here**
+
+</Note>
+
+For a **computer scientist**, vectors are a fancy word for **ordered lists of numbers**. Yep, that's it, it feels good
+to be in the simple world of a computer scientist:
+
+<Note type="image", title="Computer Scientist">
+
+**Insert Image Here**
+
+</Note>
+
+But **mathematically** speaking, vectors are a lot more **abstract**.
+Virtually **any** representation of **vectors** (which is called a **vector-space**) is valid as long as they follow a set of **axioms**. 
+It doesn't matter if you think of them as **arrows in space** that happen to have a **numeric representation**,
+or as a **list of numbers** that happen to have a cute **geometric interpretation**. 
+As long the <Tip text="axioms of vector spaces"> <p>A **real vector space** is a set X with a special element 0, and three operations
+
+- **Addition**: Given two elements x, y in X, one can form the sum x+y, which is also an element of X.
+
+- **Inverse**: Given an element x in X, one can form the inverse -x, which is also an element of X.
+
+- **Scalar multiplication**: Given an element x in X and a real number c, one can form the product cx, which is also an element of X.
+
+These operations must satisfy the following axioms: 
+
+* **Additive axioms**. For every x,y,z in X, we have
+    - x+y = y+x.
+    - (x+y)+z = x+(y+z).
+    - 0+x = x+0 = x.
+    - (-x) + x = x + (-x) = 0.
+
+* **Multiplicative axioms**. For every x in X and real numbers c,d, we have
+    - 0x = 0
+    - 1x = x
+    - (cd)x = c(dx)
+
+* **Distributive axioms**. For every x,y in X and real numbers c,d, we have
+    - c(x+y) = cx + cy.
+    - (c+d)x = cx +dx.      
+
+
+[source](https://www.math.ucla.edu/~tao/resource/general/121.1.00s/vector_axioms.html)
+
+</Tip> apply to them, they're vectors.
+
+<Note type="math", title="Mathmatician">
+
+<br/>
+<br/>
+
+```math
+\bar{v} = \begin{pmatrix} \color{red}x \\ \color{green}y \\ \color{blue}z \\ \vdots \end{pmatrix}
+```
+
+</Note>
+
+From such **abstraction**, we achieve **generalization**. Instead of solving a specific problem, mathematicians provide us tools (operations) 
+that can be useful in many fields. However! we won't go into such axioms as we're not interested in **abstract** thinking here.
+We're aiming to do something **concrete** **linear transformation** of a set of vertices (models). 
+So it would be ideal for us to think of them like this:
+
+- A vector describes a series of steps for performing a **transformation** in space.
+- A vector has 2 properties: **direction** and **magnitude**.
+- If its **magnitude** is exactly **1**, then it only describes a **direction** in space and is called a **unit vector**.
+
+Let's go over these points one by one. We'll focus mostly on **2-dimensional** vectors for simplicity and easier
+visualization, but same principles easily extend to **3-dimensions**.
+
+Given the vector $\bar{V}$; the first element ($\color{red}\bar{V}_{x}$) tells us how much to move **horizontally**---along the $\color{red}x$-axis;
+and the second element ($\color{green}\bar{V}_{y}$) tells us how much to move **vertically**---along the $\color{green}y$-axis:
+
+<Note type="image", title="">
+
+**Insert image here**
+
+$\color{red}\bar{V}_{x}$: move $-5$ units parallel to the $\color{red}x$-axis (left)
+
+$\color{green}\bar{V}_{y}$: move $+3$ units parallel to the $\color{green}y$-axis (up)
+
+</Note>
+
+As you can see, it's just elementary school number line, but extended into a higher dimension; very simple.
+
+If you paid close attention, you can see that there's an imaginary **triangle** formed there! $\color{red}\bar{V}_{x}$ as the **adjacent** side,
+$\color{green}\bar{V}_{y}$ as the **opposite** side and the $\bar{V}$ itself as the **hypotenuse**. 
+<Note type="image", title="">
+
+**Insert image here**
+
+</Note>
+
+And if you're clever enough, you've already figured out how to calculate the **length** of $\bar{V}$!
+Using the **pythagorean theorem**, we can calculate it like so:
+
+<Note type="math", title="">
+
+```math
+\Vert\bar{V}\Vert = \sqrt{\color{red}x^2 \color{white}+ \color{green}y^2} \color{white}= \sqrt{\color{red}(-5)^2 \color{white}+ \color{green}(3)^2} \color{white}\approx5.83
+```
+
+And if $\bar{V}$ is 3-dimensional:
+
+```math
+\Vert\bar{V}\Vert = \sqrt{\color{red}x^2 \color{white}+ \color{green}y^2 \color{white}+ \color{blue}z^2}
+```
+
+</Note>
+
+**Additions**
+
+**Scalar Operations**
+
+**Multiplication --- Cross Product**
+
+**Multiplication --- Dot Product**
+There's another piece of information we can extract using **trigonometry**.
+
+The **length** of the vector isn't the only thing we can get from **trigonometry**. We can also
+**compare** the **directions** of two vectors. But this needs a bit of explanation.
+
+Imagine two vectors: the $\color{red}\hat{i}$ and the $\color{green}\hat{j}$
+
+Let's discuss **scalar** operations. A **scalar** is a number that **scales** the vector by itself.
+Most often we're only interested in doing **multiplication** (denoted by $\cdot$ symbol). Yet the other 3 operations (/, +, -) are also defined
+for **scalars**. Here are two examples:
+
+<Note type="math", title="Scalar operations">
+
+Multiplication:
+```math
+\begin{pmatrix} \color{red}1 \\ \color{green}2 \\ \color{blue}3 \end{pmatrix} \cdot x \rightarrow \begin{pmatrix} \color{red}1 \\ \color{green}2 \\ \color{blue}3 \end{pmatrix} \cdot \begin{pmatrix} x \\ x \\ x \end{pmatrix}  = \begin{pmatrix} \color{red}1 \cdot x \\ \color{green}2 \cdot x \\ \color{blue}3 \cdot x \end{pmatrix}\\
+```
+
+Subtraction
+```math
+\begin{pmatrix} \color{red}69 \\ \color{green}420 \\ \color{blue}85 \end{pmatrix} - x \rightarrow \begin{pmatrix} \color{red}69 \\ \color{green}420 \\ \color{blue}85 \end{pmatrix} - \begin{pmatrix} x \\ x \\ x \end{pmatrix}  = \begin{pmatrix} \color{red}69 - x \\ \color{green}420 - x \\ \color{blue}85 - x \end{pmatrix}
+```
+</Note>
+
+**Normalization and the normal vector**
+
+<Note title="The Essence of Linear Algebra">
+
+If you're interested in **mathematics** (bet you are) and **visualization**, then I highly recommend watching the [Essence of Linear Algebra](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) 
+by **3Blue1Brown**. His math series gives you great intuitive understanding of linear algebra.
+And much of my own understanding comes from this series---and the other sources references at the end.
+
+</Note>
+
+## Linear Algebra --- Matrices
+
+** What is a matrix**
+
+**Addition and Subtraction**
+
+**Scalar Operations**
+
+**Multiplication**
+
+**Division (or lack thereof)**
+
+**Identity Matrix & Basis Vectors**
+
+## Linear Algebra --- Transformations
+
+**Scale**
+
+**Rotation**
+
+<Note type="info", title="Gimbal Lock">
+
+Representing rotations like this makes us prone to a phenomenon called **gimbal lock** where we lose
+an axis of control. A way of avoiding this is to rotate around an arbitrary axis (makes it a lot harder
+to happen but still possible).
+
+The ideal way however, is to use <Tip text="quaternions" >A quaternion is a four-part hyper-complex number used in three-dimensional rotations and orientations.
+A quaternion number is represented in the form a+bi+cj+dk, where a, b, c, and d parts are real numbers, and i, j, and k are the basis elements, satisfying the equation: i2 = j2 = k2 = ijk = −1.</Tip>,
+which not only make gimbal lock impossible but are also more computationally friendly.
+
+A full discussion about quaternions is beyond the scope of this article. However, if you're so interested,
+I've left links at the end of this article for further study.
+
+</Note>
+
+**Translation**
+
+**Embedding it all in one matrix**
+
+Great! You've refreshed on lots of cool mathematics today, let's get back to the original discussion.
+**Transforming** the freshly generated **primitives** through this **five** mysterious coordinates systems (or spaces),
+starting with the **local space**!
+
+## Coordinate System -- Local Space
+Alternatively called the **object space**, is the space **relative** to your object's **origin**.
+All objects have an origin, and it's probably at coordinates [0, 0, 0] (not guaranteed).
+
+Think of a modelling application like **Blender**. If you create a cube in it and export it, the 
+**vertices** it outputs is probably something like this:
+
+**insert outputted vertices**.
+
+And the cube looks plain like this:
+
+<Note title="Unit cube", type="image">
+
+</Note>
+
+I hope this one is easy to grasp since **technically** we've been using it in our initial triangle
+and square examples already, the local space just happened to be in NDC though that is not necessary.
+
+Say if we arbitrarily consider each 1 unit is 1cm, then a 10m x 10m cube would have the following 
+vertices whilst in the local space.
+
+Basically the vertices that are read from a model file is initially in local space.
+
+## Coordinate System -- World Space
+This is the where our first transformation happens. If we were constructing a crime scene
+without world space transformations then all our corpses would reside somewhere in [0, 0, 0] and
+would be inside each other (horrid, or lovely?).
+
+This transformation allows us to **compose** a (game) world, by transforming all the models from
+their local space and scattering them around the world. We can **translate** (move) the model to the desired
+spot, **rotate** it because why not, and **scale** it if the model needs scaling (capitan obvious here).
+
+This transformation is stored in a matrix called the **model matrix**. This is the first of three primary
+**transformation** matrices which gets multiplied by our vertices.
+
+<Note type="math", title="Model transformation">
+
+```math
+\text{model}_M * \text{local}_V
+```
+
+</Note>
+
+So one down, two more to go!
+
+## Coordinate system -- View Space
+Alternatively called: the **eye space** or the **camera space**.
+
+This is where the crucial element of **interactivity**
+comes to life (well depends if you can move the view in your game or not).
+
+Currently,  we're looking at the world
+through a fixed lens. Since everything that's rendered will be in the [-1.0, 1.0] range, that means
+**moving** our selves, (or our **eyes** or, the game's **camera**, however you **look** at it) doesn't have a real meaning.
+
+Now it's you that's stuck! (haha). But don't worry your layz-ass, instead of moving yourself
+(which again would not make sense since everything visible ends up in the NDC), you can move the world! (how entitled).
+
+We can achieve this illusion of moving around the world by **reverse transforming** everything based
+on our own **location** and **orientation**. So imagine we're in the [+10.0, 0.0, 0.0] coordinates. How we simulate this
+movement is to apply this translation matrix:
+
+<Note type="math", title="Simplified movement to the right">
+
+</Note>
+
+** Position **
+
+** Orientation **
+
+We can **rotate** the camera, or more accurately **reverse-rotate** the world, via 3 unit vectors snuggled
+inside a matrix, the **up** vector (U), the **target** or **direction** vector (D) and the **right**
+vector (R)
+
+
+<Note type="math", title="LookAt matrix">
+
+```math
+ \begin{bmatrix} \color{red}{R_x} & \color{red}{R_y} & \color{red}{R_z} & 0 \\ \color{green}{U_x} & \color{green}{U_y} & \color{green}{U_z} & 0 \\ \color{blue}{D_x} & \color{blue}{D_y} & \color{blue}{D_z} & 0 \\ 0 & 0 & 0  & 1 \end{bmatrix} * \begin{bmatrix} 1 & 0 & 0 & -\color{purple}{P_x} \\ 0 & 1 & 0 & -\color{purple}{P_y} \\ 0 & 0 & 1 & -\color{purple}{P_z} \\ 0 & 0 & 0  & 1 \end{bmatrix}
+```
+
+</Note>
+
+">>>>>" explain in depth why such operation makes the view rotate.
+
+Just like the **world space** transformation which is stored in the **model matrix**. 
+This transformation is stored in anther matrix called the **view matrix**.
+
+So far we got this equation to apply the **world space** and **view space** transformations
+to the **local space** vertices of our model:
+
+<Note type="math", title="Model_View transformation">
+
+```math
+\text{model}_M * \text{view}_M * \text{local}_V
+```
+
+</Note>
+
+That's two down, one left to slay!
+
+## Coordinate system -- Clip Space
+
+**Overview***
+
+**Aspect Ratio***
+
+**Field of view***
+
+**Normalization***
+
+**Putting it all together**
+
+<Note type="math", title="Model_View transformation">
+
+```math
+\text{model}_M * \text{view}_M * \text{projection}_M * \text{local}_V 
+```
+
+</Note>
+
+## Coordinate system -- Screen Space
+
+** Viewport transform **
+
+## Coordinate system -- Putting it All Together
+
+<Note title="Coordinate System", type="diagram">
+
+</Note>
+
+## Vertex Shader
+
+<Note title="Shaders", type="info">
+
+**Why is it called a "shader" when it's not "shading" anything?**
+
+</Note>
+
+## Geometry Shader (optional stage)
+**We can generate more geometry here since some geometric details are expressed more efficiently through mathematical expressions than raw vertex data**
+
+**Different levels of parallelism (why do we still need the vertex shader)**
+
+**Takes as input "a" primitive, outputs any type of (but only one of) primitive(s)**
+
+**Adjecency primitive types**
+
+**Primitive type only indicates number of input vertices since the primitive itself will get consumed**
+
+**Geometry shader instancing**
+
+**Geometry shader examples**
+
+**Tessellation/Subdivision**
+
+**Geometry shaders are out of fashion**
+
+**Subdivision**
+
+**Why do we subdivide?**
+
+**Mathematical presentation more compressed than actual vertex data**
+
+**Geometry shaders are versatile, not performant**
+
+**Data movement bottleneck**
+
+**LoD**
+
+## Tessellation Shader (optional stage)
+**Tessellation Control Shader** (or Hull Shader in DirectX terminology)
+
+**Tessllator**
+
+**Quad Primitives**
+
+**Isolines**
+
+**Outer tessellation / Inner tessellation**
+
+**Tessellation Evaluation Shader** (or Domain Shader in DirectX terminology)
+
+**Tessellation examples**
+
+## Geometry Processing --- Conclusion
+Let's wrap up!
+
+<Note type="diagram", title="Geometry Processing">
+
+Prepared Vertex Data -> 
+
+Input Assembly turns Vertex Data into digestible structures for the Vertex Shader  -> 
+
+Vertex Shader is invoked per vertex for applying transformations via some clever linear algebra -> 
+
+Geometry & Tessellation Shaders expand the geometry on-the-fly and may apply more transformations -> 
+
+... Rasterizer
+
+</Note>
+
+The geometric detail that we now have is not **real**. Perfect triangle do not exist in the real world.
+Our next challenge in this journey is to turn these mathematical representations into something
+concrete and significant. We're gonna take these primitives and turn them into **pixels** through
+a fancy process called **rasterization**.
+
+You can continue on to [part 2](/articles/the-graphics-pipeline/rasterization) of this article series and learn all about how rasterization
+works.
+
+## Sources
+
+<Note title="Reviewers", type="review">
+
+MMZ ❤️
+
+Grammarly
+
+Some LLMs
+
+</Note>
+
+<Note title="Books", type="resource" flow=true>
+
+[Joey De Vriez --- LearnOpenGL](https://learnopengl.com/) <br/>
+[Tomas Akenine Moller --- Real-Time Rendering (4th ed)](https://www.realtimerendering.com/intro.html) <br/>
+[Gabriel Gambetta --- Computer Graphics from Scratch](https://gabrielgambetta.com/computer-graphics-from-scratch/) <br/>
+</Note>
+
+<Note title="Wikipedia", type="resource" flow=true>
+
+[Polygonal Modeling](https://en.wikipedia.org/wiki/Polygonal_modeling) <br/>
+[Non-uniform Rational B-spline Surfaces](https://en.wikipedia.org/wiki/Non-uniform_rational_B-spline) <br/>
+[Computer Aided Design (CAD)](https://en.wikipedia.org/wiki/Computer-aided_design) <br/>
+[Rasterization](https://en.wikipedia.org/wiki/Rasterisation) <br/>
+[Euclidean geometry](https://en.wikipedia.org/wiki/Euclidean_geometry) <br/>
+[Vector space](https://en.wikipedia.org/wiki/Vector_space) <br/>
+
+</Note>
+
+<Note title="Youtube", type="resource" flow=true>
+
+[Miolith --- Quick Understanding of Homogeneous Coordinates for Computer Graphics](https://www.youtube.com/watch?v=o-xwmTODTUI) <br/>
+[Leios Labs ---  What are affine transformations?](https://www.youtube.com/watch?v=E3Phj6J287o) <br/>
+[3Blue1Brown --- Essence of linear algebra (highly recommended playlist)](https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) <br/>
+[3Blue1Brown --- Quaternions and 3d rotation, explained interactively](https://www.youtube.com/watch?v=zjMuIxRvygQ) <br/>
+[pikuma --- Math for Game Developers (playlist)](https://www.youtube.com/watch?v=Do_vEjd6gF0&list=PLYnrabpSIM-93QtJmGnQcJRdiqMBEwZ7_) <br/>
+[pikuma --- 3D Graphics (playlist)](https://www.youtube.com/watch?v=Do_vEjd6gF0&list=PLYnrabpSIM-97qGEeOWnxZBqvR_zwjWoo) <br/>
+[Cem Yuksel --- Introduction to Computer Graphics (playlist)](https://www.youtube.com/watch?v=vLSphLtKQ0o&list=PLplnkTzzqsZTfYh4UbhLGpI5kGd5oW_Hh) <br/>
+[Cem Yuksel --- Interactive Computer Graphics (playlist)](https://www.youtube.com/watch?v=UVCuWQV_-Es&list=PLplnkTzzqsZS3R5DjmCQsqupu43oS9CFN&pp=0gcJCV8EOCosWNin) <br/>
+[javidx9 --- Essential Mathematics For Aspiring Game Developers](https://www.youtube.com/watch?v=DPfxjQ6sqrc) <br/>
+</Note>
+
+<Note title="Articles", type="resource" flow=true>
+
+[Stackoverflow --- Why do 3D engines primarily use triangles to draw surfaces?](https://stackoverflow.com/questions/6100528/why-do-3d-engines-primarily-use-triangles-to-draw-surfaces) <br/>
+[The ryg blog --- The barycentric conspiracy](https://fgiesen.wordpress.com/2013/02/06/the-barycentric-conspirac/) <br/>
+[Juan Pineda --- A Parallel Algorithm for Polygon Rasterization](https://www.cs.drexel.edu/~deb39/Classes/Papers/comp175-06-pineda.pdf) <br/>
+[Kristoffer Dyrkorn --- A fast and precise triangle rasterizer](https://kristoffer-dyrkorn.github.io/triangle-rasterizer/) <br/>
+[Microsoft --- Rasterization Rules](https://learn.microsoft.com/en-us/windows/win32/direct3d11/d3d10-graphics-programming-guide-rasterizer-stage-rules) <br/>
+[Axioms of vector spaces](https://www.math.ucla.edu/~tao/resource/general/121.1.00s/vector_axioms.html)
+</Note>
+
+<Note title="Documentations", type="resource" flow=true>
+
+[Vulkan Docs --- Drawing](https://docs.vulkan.org/spec/latest/chapters/drawing.html) <br/>
+[Vulkan Docs --- Pipeline Diagram](https://docs.vulkan.org/spec/latest/_images/pipelinemesh.svg) <br/>
+</Note>
