@@ -7,14 +7,14 @@
 >
 	<div class="mx-auto flex max-w-2xl origin-center">
 		<img
-			src={'/pfp.jpg'}
+			src={'/pfp.png'}
 			alt="author"
-			class="h-full w-full rounded-t-lg object-cover transition-transform duration-100 ease-out"
+			class="rounded-t-lg object-cover transition-transform duration-100 ease-out"
 		/>
 	</div>
 
 	<div class="m-4 min-w-[60%]">
-		<h1 class="font-mono text-2xl">Hello, I'm Light Wiens</h1>
+		<h1 class="font-mono text-2xl">Hai!, I'm Light Wiens :)</h1>
 		<p class="text-muted-foreground pt-4 leading-relaxed">
 			A <strong class="text-dark-red">C++ specialist</strong> and bibliophile with ardent interest
 			for <strong class="font-bold">large-scale</strong> projects. <br />

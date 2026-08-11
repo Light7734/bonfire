@@ -1,6 +1,6 @@
 <script lang="ts">
-	import './articles/article.css';
-	import Note from './articles/Note.svelte';
+	import './article.css';
+	import Note from './Note.svelte';
 </script>
 
 <div class="container">

@@ -40,8 +40,8 @@
 		"vitest": "^2.1.8"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^1.31.0",
 		"activity-calendar-widget": "^0.0.18",
-		"lucide-svelte": "^0.544.0",
 		"svelte-simple-icons": "^1.0.3"
 	}
 }

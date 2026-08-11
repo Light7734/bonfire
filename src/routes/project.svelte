@@ -2,7 +2,7 @@
 </script>
 
 <script lang="ts">
-	import { ChevronDown, ChevronUp, BookText, Github, Gitlab, Code, GitBranch } from 'lucide-svelte';
+	import { ChevronDown, ChevronUp, BookText, Code, GitBranch } from '@lucide/svelte';
 	interface ProjectData {
 		title: string | undefined;
 		icon: string;
@@ -116,7 +116,7 @@
 								rel="noopener noreferrer"
 								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
 							>
-								<Github class="h-4 w-4" />
+								<Code class="h-4 w-4" />
 								Github
 							</a>
 
@@ -126,7 +126,7 @@
 								rel="noopener noreferrer"
 								class="text-accent-foreground flex items-center gap-1 transition-colors duration-200 hover:underline"
 							>
-								<Gitlab class="h-4 w-4" />
+								<Code class="h-4 w-4" />
 								Gitlab
 							</a>
 
