@@ -4,88 +4,59 @@
 </script>
 
 <div class="container">
-	<div class="padding"></div>
+    <p>
+        We retain 10% of what we <strong>read</strong>, 20% of what we <strong>hear</strong>, 30% of
+        what we <strong>see</strong>... but 90% of what we <strong>teach</strong> ! <br />
 
-	<div class="body">
-		<p>
-			We retain 10% of what we <strong>read</strong>, 20% of what we <strong>hear</strong>, 30% of
-			what we <strong>see</strong>... but 90% of what we <strong>teach</strong> ! <br />
+        Dazzle is an effort to <strong>solidify</strong> my understading of the complex world of
+        computers. and to give back to the <strong>community</strong> 💖.
+    </p>
 
-			Dazzle is an effort to <strong>solidify</strong> my understading of the complex world of
-			computers. and to give back to the <strong>community</strong> 💖.
-		</p>
+    <h2 style:padding="0">The Graphics Pipeline</h2>
+    <Note type="none" flow="true">
+        <p>
+            Article series covering the <strong>hows</strong> and <strong>whys</strong> of the
+            <strong>Graphics Pipeline</strong>.
+        </p>
+    </Note>
+    <a href="/articles/geometry-processing" class="hover:underline">
+    <Note type="resource" title="Geometry Processing" flow="true">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
+            maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
+            ligula sagittis, vitae rutrum felis facilisis.
+        </p>
+    </Note>
+        </a>
 
-		<br />
-		<h2 style:padding="0">The Graphics Pipeline</h2>
-		<Note type="none" flow="true">
-			<p>
-				Article series covering the <strong>hows</strong> and <strong>whys</strong> of the
-				<strong>Graphics Pipeline</strong>.
-			</p>
-		</Note>
-		<Note type="resource" , title="Geometry Processing" flow="true">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
-				maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
-				ligula sagittis, vitae rutrum felis facilisis.
-			</p>
-		</Note>
+    <a href="/articles/rasterization" class="hover:underline">
+    <Note type="resource" title="Rasterization" flow="true">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
+            maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
+            ligula sagittis, vitae rutrum felis facilisis.
+        </p>
+    </Note>
+        </a>
 
-		<Note type="resource" , title="Rasterization" flow="true">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
-				maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
-				ligula sagittis, vitae rutrum felis facilisis.
-			</p>
-		</Note>
+    <a href="/articles/pixel-processing" class="hover:underline">
+    <Note type="resource" title="Pixel Processing" flow="true">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
+            maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
+            ligula sagittis, vitae rutrum felis facilisis.
+        </p>
+    </Note>
+        </a>
 
-		<Note type="resource" , title="Pixel Processing" flow="true">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
-				maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
-				ligula sagittis, vitae rutrum felis facilisis.
-			</p>
-		</Note>
+    <a href="/articles/optimizations" class="hover:underline">
+    <Note type="resource" title="Optimizations" flow="true">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
+            maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
+            ligula sagittis, vitae rutrum felis facilisis.
+        </p>
+    </Note>
+        </a>
 
-		<Note type="resource" , title="Optimizations" flow="true">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam congue feugiat leo quis
-				maximus. Sed id odio a velit hendrerit interdum efficitur quis enim. Morbi luctus lectus non
-				ligula sagittis, vitae rutrum felis facilisis.
-			</p>
-		</Note>
-	</div>
-
-	<div class="padding"></div>
 </div>
-
-<style>
-	@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
-	.container {
-		background-color: #1d2021;
-		display: flex;
-		padding: 0em;
-		margin: 0em;
-	}
-
-	.body {
-		flex: 3;
-		padding: 0em;
-		margin: 0em;
-		background-color: #282828;
-
-		min-width: 80ch;
-		max-width: 80ch;
-		text-wrap-mode: wrap;
-		text-wrap-style: pretty;
-		text-align: justify;
-
-		border-left: 1px solid #92837420;
-		border-right: 1px solid #92837420;
-	}
-
-	.padding {
-		flex: 1;
-	}
-</style>

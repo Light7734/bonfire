@@ -16,7 +16,7 @@
 		gallery: string[] | undefined;
 	}
 
-	import LanguageStats from './languages.svelte';
+	// import LanguageStats from './languages.svelte';
 	import TiltCard from '$lib/components/tilt_card.svelte';
 
 	export let data: ProjectData = {
