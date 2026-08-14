@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Info, BookCopy, Eye, Network, Sigma, Image, Quote } from '@lucide/svelte';
-	let { title = '', type = 'info', flow = false } = $props();
+	let { title = '', type = 'info', flow = 'false' } = $props();
 </script>
 
 <div>
@@ -27,7 +27,7 @@
 					</div>
 				{/if}
 
-				{#if flow == false}
+				{#if flow == 'false'}
 					<div class="horiz_line" style:background-color="#fabd2f"></div>
 				{:else if title != ''}
 					<p class="title">{title}</p>
@@ -39,7 +39,7 @@
 
 				<div class="slot">
 					{#if title != ''}
-						{#if flow == false}
+						{#if flow == 'false'}
 							<p>{title}</p>
 						{/if}
 					{/if}
@@ -70,7 +70,7 @@
 					</div>
 				{/if}
 
-				{#if flow == false}
+				{#if flow == 'false'}
 					<div class="horiz_line" style:background-color="#fabd2f"></div>
 				{:else if title != ''}
 					<p class="title">{title}</p>
@@ -82,7 +82,7 @@
 
 				<div class="slot">
 					{#if title != ''}
-						{#if flow == false}
+						{#if flow == 'false'}
 							<p>{title}</p>
 						{/if}
 					{/if}
@@ -156,11 +156,5 @@
 		display: inline-block;
 		margin: 0;
 		font-weight: bolder;
-	}
-
-	.icon {
-	}
-
-	.icon:first-child {
 	}
 </style>

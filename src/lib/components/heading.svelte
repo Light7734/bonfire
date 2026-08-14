@@ -1,6 +1,6 @@
 <script lang="ts">
-	import './article.css';
-	import HorizontalBreak from './HorizontalBreak.svelte';
+	// import './article.css';
+	import HorizontalBreak from '$lib/components/horizontal_break.svelte';
 
 	export let title;
 	export let date;

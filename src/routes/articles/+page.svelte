@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './article.css';
-	import Note from './Note.svelte';
+	import Note from '$lib/components/note.svelte';
 </script>
 
 <div class="container">
@@ -65,11 +65,14 @@
 	.container {
 		background-color: #1d2021;
 		display: flex;
+		padding: 0em;
+		margin: 0em;
 	}
 
 	.body {
 		flex: 3;
-		padding: 1em;
+		padding: 0em;
+		margin: 0em;
 		background-color: #282828;
 
 		min-width: 80ch;

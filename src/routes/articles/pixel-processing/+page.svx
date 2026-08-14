@@ -1,46 +1,62 @@
 ---
-title: The Graphics Pipeline --- Rasterization
+title: The Graphics Pipeline --- Pixel Processing
 date: "April 20 - 2025"
 ---
 
 <script>
-import Image from "../../Image.svelte"
-import Note from "../../Note.svelte"
-import Tip from "../../Tip.svelte"
+import Image from '$lib/components/image.svelte';
+import Note from '$lib/components/note.svelte';
+import Tip from '$lib/components/tip.svelte';
 </script>
 
-## Rasterization
+## Pixel Processing
+**Overview**
 
-**Bounding Box**
+## Texturing
+**Vertex Data Extension**
 
-**Winding order**
+**Texture Coordinates**
 
-**P needs to be on the "RIGHT" side of a->b**
+**Texture Sampling**
 
-**Cross Product**
+**Mipmaps**
 
-**Interpolation**
+**Non-color Data**
 
-Remember the god forsaken **input assembler**? Let's expand our understanding of it
-since-- for simplicity's sake, we skipped over the fact that **vertices** can hold much, much more data
-than only positions.
+## Lighting
+**Phong Shading**
 
-**Barycentric Interpolation** NOTE NOT linear interpolation
+// The model was named after its developer B`ui Tóng Phong
 
-**Some Optimizations**
+**Ambient**
 
-<Note title="Software Rasterization">
+**Diffuse**
 
-What we've implemented is a simple toy rasterizer written to be run on the CPU for educational
-purposes only. It is inefficient, has shit precision (integer precision) thus it is choppy when moving things around, and has many problems.
-However, GPUs have dedicated hardwares that run incredibly optimized algorithms to do this
-sort of thing; hence what we made is called a **software** rasterizer ---as opposed to the usual
-**hardware** rasterizer.
+**Specular**
 
-It's nice to be aware of and appreciate the simplicity of triangles. If our polygons had variable
-number of edges then it would be really difficult to come up with efficient algorithms for doing this.
+**Combined (Phong)**
 
-</Note>
+## Shadows
+
+## Anti-Aliasing
+**SSAA**
+
+**MSAA**
+
+## Post-Processing & Screen-Space Effects
+
+## Pixel Shaders
+
+## Presentation
+
+## Depth Testing
+
+## Stencil Testing
+
+## Output Merger
+** Transparency**
+
+**Blending**
 
 ## Sources
 

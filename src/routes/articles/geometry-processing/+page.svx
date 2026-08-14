@@ -4,14 +4,15 @@ date: "April 20 - 2025"
 ---
 
 <script>
-import Image from "../../Image.svelte"
-import Note from "../../Note.svelte"
-import Tip from "../../Tip.svelte"
+import Image from '$lib/components/image.svelte';
+import Note from '$lib/components/note.svelte';
+import Tip from '$lib/components/tip.svelte';
 
 let a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z;
 let A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
 let red, green, yellow, blue, purple, cyan, orange, black, white, gray, color;
 
+let test = "hi"
 </script>
 
 Ever wondered how games put all that gore on your display? All that beauty is brought into life by
@@ -874,7 +875,7 @@ Our next challenge in this journey is to turn these mathematical representations
 concrete and significant. We're gonna take these primitives and turn them into **pixels** through
 a fancy process called **rasterization**.
 
-You can continue on to [part 2](/articles/the-graphics-pipeline/rasterization) of this article series and learn all about how rasterization
+You can continue on to [part 2](/articles/rasterization) of this article series and learn all about how rasterization
 works.
 
 ## Sources
@@ -935,3 +936,4 @@ Some LLMs
 [Vulkan Docs --- Drawing](https://docs.vulkan.org/spec/latest/chapters/drawing.html) <br/>
 [Vulkan Docs --- Pipeline Diagram](https://docs.vulkan.org/spec/latest/_images/pipelinemesh.svg) <br/>
 </Note>
+

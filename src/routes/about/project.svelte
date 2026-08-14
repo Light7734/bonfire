@@ -17,7 +17,7 @@
 	}
 
 	import LanguageStats from './languages.svelte';
-	import TiltCard from './tiltcard.svelte';
+	import TiltCard from '$lib/components/tilt_card.svelte';
 
 	export let data: ProjectData = {
 		title: '',

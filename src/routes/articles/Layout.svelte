@@ -1,6 +1,6 @@
 <script lang="ts">
 	import './article.css';
-	import Heading from './Heading.svelte';
+	import Heading from '$lib/components/heading.svelte';
 
 	export let title;
 	export let date;
@@ -28,6 +28,7 @@
 	.body {
 		flex: 3;
 		padding: 1em;
+        margin: 0;
 		background-color: #282828;
 
 		min-width: 80ch;
