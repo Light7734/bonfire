@@ -4,21 +4,7 @@
 </script>
 
 <div class="container">
-    <p>
-        We retain 10% of what we <strong>read</strong>, 20% of what we <strong>hear</strong>, 30% of
-        what we <strong>see</strong>... but 90% of what we <strong>teach</strong> ! <br />
-
-        Dazzle is an effort to <strong>solidify</strong> my understading of the complex world of
-        computers. and to give back to the <strong>community</strong> 💖.
-    </p>
-
     <h2 style:padding="0">The Graphics Pipeline</h2>
-    <Note type="none" flow="true">
-        <p>
-            Article series covering the <strong>hows</strong> and <strong>whys</strong> of the
-            <strong>Graphics Pipeline</strong>.
-        </p>
-    </Note>
     <a href="/articles/geometry-processing" class="hover:underline">
     <Note type="resource" title="Geometry Processing" flow="true">
         <p>
@@ -58,5 +44,4 @@
         </p>
     </Note>
         </a>
-
 </div>
