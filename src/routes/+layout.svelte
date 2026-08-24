@@ -14,7 +14,7 @@
   <div class="flex items-center gap-2">
     <div class="flex flex-col">
         <span class="text-2xl font-bold w-full text-justify" >Light Wiens</span>
-        <span class="text-sm text-muted-foreground">Software Engineer</span>
+        <span class="text-sm text-muted-foreground">C++ Specialist · Bibliophile</span>
     </div>
         <img src={"/light.svg"} alt={""} class="h-12 w-12 rounded-full object-cover" />
   </div>
