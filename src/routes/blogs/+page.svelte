@@ -9,8 +9,6 @@
         <p> Quitting the most socially accepted drug, caffeine... </p>
         <br/>
     </Note>
-
     </a>
-
 </div>
 
