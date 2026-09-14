@@ -3,6 +3,4 @@
 	import Note from '$lib/components/note.svelte';
 </script>
 
-<div class="container">
-</div>
-
+<div class="container"></div>

@@ -29,30 +29,27 @@
 	const hikari_data = json_to_project(hikari);
 </script>
 
+<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
+	<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+	<h1 class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out">
+		PROJECTS
+	</h1>
+	<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
+</div>
 
-		<div class="relative left-1/2 flex w-screen max-w-none -translate-x-1/2 items-center">
-			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
-			<h1
-				class="rounded-lg px-4 align-middle font-mono text-4xl transition-all duration-300 ease-out"
-			>
-				PROJECTS
-			</h1>
-			<div class="border-border flex-grow border-t border-t-dark-neutral"></div>
-		</div>
+<br />
 
-		<br />
+<Project data={light_data} />
+<br />
 
-		<Project data={light_data} />
-		<br />
+<Project data={dazzle_data} />
+<br />
 
-		<Project data={dazzle_data} />
-		<br />
+<Project data={hikari_data} />
+<br />
 
-		<Project data={hikari_data} />
-		<br />
-
-		<Project data={bonfire_data} />
-		<br />
+<Project data={bonfire_data} />
+<br />
 
 <style>
 	/* Additional custom styles if needed */
