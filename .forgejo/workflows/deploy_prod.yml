@@ -1,0 +1,23 @@
+name: Build and Deploy
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-and-deploy:
+    runs-on: lina
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        run: |
+          ssh rylai "rm -rf /path/to/deploy/dist"
+          scp -r dist rylai:/path/to/deploy/dist
