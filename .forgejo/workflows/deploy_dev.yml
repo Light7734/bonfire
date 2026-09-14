@@ -19,5 +19,5 @@ jobs:
       - name: Deploy
         run: |
           mv ./build ./bonfire_dev
-          ssh rylai "rm -rf /home/light/nginx-reverse-proxy-manager/sites/bonfire_dev"
-          scp -r ./bonfire_dev rylai:/home/light/nginx-reverse-proxy-manager/sites/bonfire_dev
+          ssh rylai "rm -rf /home/light/nginx-reverse-proxy-manager/sites/bonfire_dev/*"
+          scp -r './bonfire_dev/.' 'rylai:/home/light/nginx-reverse-proxy-manager/sites/bonfire_dev/'
