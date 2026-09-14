@@ -1,0 +1,23 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: lina
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy
+        run: |
+          mv ./build ./bonfire_dev
+          ssh rylai "rm -rf /home/light/nginx-reverse-proxy-manager/sites/bonfire_dev"
+          scp -r ./bonfire_dev rylai:/home/light/nginx-reverse-proxy-manager/sites/bonfire_dev
