@@ -19,5 +19,6 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh rylai "rm -rf /path/to/deploy/dist"
-          scp -r dist rylai:/path/to/deploy/dist
+          mv ./build ./bonfire
+          ssh rylai "rm -rf /home/light/nginx-reverse-proxy-manager/sites/bonfire"
+          scp -r ./bonfire rylai:/home/light/nginx-reverse-proxy-manager/sites/bonfire
