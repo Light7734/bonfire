@@ -12,38 +12,39 @@
 	bookmarks={[
 		{
 			title: 'Tomas Akenine-Möller —  Real-Time Rendering, 4th Edition',
-			description: 'Description',
+			description:
+				'Combines fundamental principles with guidance on the latest techniques to provide a complete reference on three-dimensional interactive computer graphics. ',
 			link: 'https://www.amazon.com/Real-Time-Rendering-Fourth-Tomas-Akenine-M%C3%B6ller/dp/1138627003'
 		},
 		{
 			title: 'GPU Zen 4: Advanced Rendering Techniques, by  Wolfgang Friedrich Engel',
-			description: '...',
+			description:
+				'Exploring recent developments in the rapidly evolving field of game real-time rendering, GPU Zen assembles a high-quality collection of cutting-edge contributions for programming the GPU.',
 			link: 'https://www.amazon.com/GPU-Zen-Advanced-Rendering-Techniques/dp/B0GNZJPVZ4'
 		},
 		{
 			link: 'https://www.amazon.com/exec/obidos/ASIN/1482250926',
 			title: 'Essential Mathematics for Games and Interactive Applications, by James M. Van Verth ',
-			description: '...'
+			description:
+				'Illustrates the importance of mathematics in 3D programming. It shows you how to properly animate, simulate, and render scenes and discusses the mathematics behind the processes.'
 		},
 		{
 			link: 'https://raytracing.github.io/books/RayTracingInOneWeekend.html',
 			title: 'Ray Tracing in One Weekend (and beyond), by Peter Shirley',
-			description: '...'
+			description:
+				'Teaches you how to make a simple raytracer to render some balls. In one weekend.'
 		},
 		{
 			link: 'https://gamephysicsweekend.github.io/',
 			title: 'Game Physics in One Weekend (and beyond), by Gregory Hodges',
-			description: '...'
+			description:
+				'Teaches you how to build a real-time rigid body physics simulation for use in games. In one weeekend.'
 		},
 		{
 			link: 'https://people.freebsd.org/~lstewart/articles/cpumemory.pdf',
 			title: 'What every programmer should know about memory',
-			description: '...'
-		},
-		{
-			link: 'https://www.amazon.com/Large-Scale-Software-Design-John-Lakos/dp/0201633620',
-			title: 'Large-Scale C++ Software Design',
-			description: '...'
+			description:
+				'Explains the structure of memory subsystems in use on modern commodity hardware, illustrating why CPU caches were developed, how they work, and what programs should do to achieve optimal performance by utilizing them'
 		}
 	]}
 />
@@ -54,31 +55,44 @@
 		{
 			link: 'https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab',
 			title: '3Blues1Brown - Essence of Linear Algebra',
-			description: '...'
+			description: 'Intuitive understanding of linear algebra subjcets with epic visuals.'
 		},
 		{
 			link: 'https://www.youtube.com/watch?v=WUvTyaaNkzM&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr',
 			title: '3Blues1Brown - Essence of Calculus',
-			description: '...'
+			description: 'What might it feel like to invent calculus?'
 		},
 		{
 			link: 'https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&pp=0gcJCf4COCosWNin',
 			title: '3Blues1Brown - Neural Networks',
-			description: '...'
+			description: 'What are the neurons, why are there layers, and what is the math underlying it?'
 		},
-		{ link: 'https://www.youtube.com/@CppCon', title: 'CppCon', description: '...' },
-		{ link: 'https://www.youtube.com/@GMTK', title: "Game Maker's Toolkit", description: '...' },
-		{ link: 'https://www.youtube.com/@CGPGrey', title: 'CGPGrey', description: '...' },
-		{ link: 'https://www.youtube.com/@lauriewired', title: 'Laurie Wired', description: '...' },
+
 		{
-			link: 'https://www.youtube.com/watch?v=51u9ZgrEThg&list=PLmac3HPrav-9UWt-ahViIZxpyQxJ2wPSH',
-			title: 'Pixel Pete - Pixel Art 101',
-			description: '...'
+			link: 'https://www.youtube.com/@GMTK',
+			title: "Game Maker's Toolkit",
+			description:
+				"Game Maker's Toolkit is a deep dive into game design, level design, and game production"
+		},
+		{
+			link: 'https://www.youtube.com/@CGPGrey',
+			title: 'CGPGrey',
+			description: 'Quality documentaries about almost anything'
+		},
+		{
+			link: 'https://www.youtube.com/@lauriewired',
+			title: 'Laurie Wired',
+			description: 'Researcher; serial complexity unpacker.'
 		},
 		{
 			link: 'https://www.youtube.com/watch?v=7BWr2tlK-4c&list=PLLdxW--S_0h4dlWUpl-TzBp-ulqK3NiM_',
 			title: 'AdamCYounis - Pixel Art Class',
-			description: '...'
+			description: 'Incredibly valuable pixel art tutorial series.'
+		},
+		{
+			link: 'https://www.youtube.com/watch?v=51u9ZgrEThg&list=PLmac3HPrav-9UWt-ahViIZxpyQxJ2wPSH',
+			title: 'Pixel Pete - Pixel Art 101',
+			description: 'Yet another incredibly valuable pixel art tutorial series.'
 		}
 	]}
 />
@@ -225,7 +239,8 @@
 		{
 			link: 'https://www.realtimerendering.com/',
 			title: 'Tomas Akenine-Möller — Realtime Renderin',
-			description: '...'
+			description:
+				'Very nice book about techniques of real-time rendering, might have gotten a bit old considering recent technological advancements.'
 		}
 	]}
 />
@@ -235,8 +250,14 @@
 	bookmarks={[
 		{
 			link: 'https://www.youtube.com/@CppCon',
-			title: 'Community — CppCon',
-			description: 'The C++ Conference'
+			title: 'CppCon',
+			description:
+				'CppCon is the annual, week-long face-to-face gathering for the entire C++ community.'
+		},
+		{
+			link: 'https://www.amazon.com/Large-Scale-Software-Design-John-Lakos/dp/0201633620',
+			title: 'Large-Scale C++ Software Design',
+			description: 'Demonstrates how to design large systems'
 		},
 		{
 			link: 'https://godbolt.org/',
