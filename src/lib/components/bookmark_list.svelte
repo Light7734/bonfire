@@ -17,7 +17,7 @@
 	<strong class="display: block">_.--————————--»»-{caption}-»»--————————--._</strong>
 	{#each bookmarks as bookmark}
 		<a href={bookmark.link}><p>{bookmark.title}</p></a>
-		<p>{bookmark.description}</p>
+		<p class="pb-4">{bookmark.description}</p>
 	{/each}
 </div>
 
