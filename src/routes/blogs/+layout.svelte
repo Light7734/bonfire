@@ -21,7 +21,6 @@
 		<div class="flex flex-wrap items-center gap-6 font-mono text-sm">
 			<a href="/projects" class="hover:scale-105">PROJECTS</a>
 			<a href="/articles" class="hover:scale-105">ARTICLES</a>
-			<a href="/blogs" class="hover:scale-105">BLOGS</a>
 			<a href="/bookmarks" class="hover:scale-105">BOOKMARKS</a>
 		</div>
 	</nav>

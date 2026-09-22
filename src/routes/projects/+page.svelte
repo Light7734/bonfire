@@ -19,12 +19,10 @@
 	import Project from './project.svelte';
 
 	import * as light from '$lib/data/projects/light.json';
-	import * as dazzle from '$lib/data/projects/dazzle.json';
 	import * as bonfire from '$lib/data/projects/bonfire.json';
 	import * as hikari from '$lib/data/projects/hikari.json';
 
 	const light_data = json_to_project(light);
-	const dazzle_data = json_to_project(dazzle);
 	const bonfire_data = json_to_project(bonfire);
 	const hikari_data = json_to_project(hikari);
 </script>
@@ -40,9 +38,6 @@
 <br />
 
 <Project data={light_data} />
-<br />
-
-<Project data={dazzle_data} />
 <br />
 
 <Project data={hikari_data} />
