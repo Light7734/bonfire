@@ -7,13 +7,5 @@
 	"codeberg": "https://codeberg.org/light7734/light",
 	"github": "https://github.com/light7734/light",
 	"gitlab": "https://gitlab.com/light7734/light",
-	"docs": "https://lt.light7734.com/",
-	"gallery": [
-		"https://placekittens.com/720/480",
-		"https://placekittens.com/720/481",
-		"https://placekittens.com/720/482",
-		"https://placekittens.com/720/483",
-		"https://placekittens.com/720/484",
-		"https://placekittens.com/720/484"
-	]
+	"docs": "https://lt.light7734.com/"
 }

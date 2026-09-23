@@ -1,6 +1,6 @@
 ---
-title: The Graphics Pipeline - Part 1
-date: "April 20 - 2025"
+title: The Graphics Pipeline - Part 1 (wip)
+date: "Sep - 2026"
 ---
 
 <script>

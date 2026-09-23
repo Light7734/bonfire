@@ -8,7 +8,7 @@
 	<nav
 		class="flex flex-wrap items-center justify-between gap-8 border-b-4 border-b-[#e21a41] px-6 py-4"
 	>
-		<a href="/" class=" hover:scale-105">
+		<a href="/" class=" hover:scale-[102%] hover:animate-pulse">
 			<div class="flex items-center gap-2">
 				<div class="flex flex-col">
 					<span class="w-full text-justify text-2xl font-bold">Light Wiens</span>
@@ -19,9 +19,17 @@
 		</a>
 
 		<div class="flex flex-wrap items-center gap-6 font-mono text-sm">
-			<a href="/projects" class="hover:scale-105">PROJECTS</a>
-			<a href="/articles" class="hover:scale-105">ARTICLES</a>
-			<a href="/bookmarks" class="hover:scale-105">BOOKMARKS</a>
+			<a
+				href="/projects"
+				class="text-[#ebdbb2] hover:scale-[102%] hover:animate-pulse hover:text-[#ebdbb2] hover:underline"
+				>PROJECTS</a
+			>
+			<a href="/articles" class="text-[#fb4934] hover:text-[#fb4934]">ARTICLES</a>
+			<a
+				href="/bookmarks"
+				class="text-[#ebdbb2] hover:scale-[102%] hover:animate-pulse hover:text-[#ebdbb2] hover:underline"
+				>BOOKMARKS</a
+			>
 		</div>
 	</nav>
 
